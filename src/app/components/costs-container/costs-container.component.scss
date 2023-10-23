@@ -1,0 +1,35 @@
+.container {
+  width: 1300px;
+  margin: 30px auto 0;
+
+  .titleTable {
+    width: 100%;
+
+    &__row1 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      font-weight: bold;
+
+      td:nth-child(2) {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 30%;
+      }
+
+      .dropdown {
+        width: 150px;
+        height: 30px;
+        border-color: gray;
+      }
+    }
+  }
+
+  .costsTable {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid gray;
+  }
+}

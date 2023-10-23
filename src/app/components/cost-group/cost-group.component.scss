@@ -1,0 +1,36 @@
+.costsTable {
+  width: 100%;
+  border-collapse: collapse;
+  //   border: 1px solid gray;
+
+  .costsTable__row1 {
+    td {
+      padding: 10px 15px;
+      background-color: royalblue;
+      color: #fff;
+    }
+
+    td:nth-child(1) {
+      width: 15%;
+      padding-left: 10px;
+    }
+    td:nth-child(2) {
+      padding-left: 10px;
+      width: 25%;
+    }
+    td:nth-child(3) {
+      width: 10%;
+      padding-right: 0;
+      text-align: end;
+    }
+    td:nth-child(4) {
+      width: 20%;
+      padding-right: 0;
+      text-align: end;
+    }
+    td:nth-child(5) {
+      width: 30%;
+      text-align: center;
+    }
+  }
+}
