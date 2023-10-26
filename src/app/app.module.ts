@@ -10,6 +10,9 @@ import { CostGroupComponent } from './components/cost-group/cost-group.component
 import { CostsContainerComponent } from './components/costs-container/costs-container.component';
 import { SingleCommentComponent } from './components/single-comment/single-comment.component';
 import { SingleCostComponent } from './components/single-cost/single-cost.component';
+import { SecondCommentGroupComponent } from './components/second-comment-group/second-comment-group.component';
+import { SecondSingleCommentComponent } from './components/second-single-comment/second-single-comment.component';
+import { SecondSingleCostComponent } from './components/second-single-cost/second-single-cost.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +23,9 @@ import { SingleCostComponent } from './components/single-cost/single-cost.compon
     CostsContainerComponent,
     SingleCommentComponent,
     SingleCostComponent,
+    SecondCommentGroupComponent,
+    SecondSingleCommentComponent,
+    SecondSingleCostComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [],

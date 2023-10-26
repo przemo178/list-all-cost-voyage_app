@@ -17,8 +17,6 @@
     input {
       width: 100%;
       height: 30px;
-    }
-    input::placeholder {
       padding-left: 5px;
     }
   }
@@ -35,6 +33,9 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
+    }
+    button:hover {
+      background-color: rgba($color: royalblue, $alpha: 0.8);
     }
   }
 }
