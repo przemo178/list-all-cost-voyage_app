@@ -1,14 +1,14 @@
 <tr class="commentOneTable__row2">
     <td>
         <div>
-            <select class="commentDropdown">
+            <select class="commentDropdown" (change)="enableInput($event)">
                 <option value="type" selected>Select comment type</option>
                 <option value="active">Comment</option>
             </select>
         </div>
     </td>
     <td>
-        <input type="text" placeholder="Type comment">
+        <input type="text" placeholder="Type comment" [disabled]="!inputEnabled">
     </td>
     <td>
         <button>Add</button>

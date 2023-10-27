@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { CommentFormComponent } from './components/comment-form/comment-form.component';
 import { CommentGroupComponent } from './components/comment-group/comment-group.component';
 import { CostGroupComponent } from './components/cost-group/cost-group.component';
@@ -27,7 +28,7 @@ import { SecondSingleCostComponent } from './components/second-single-cost/secon
     SecondSingleCommentComponent,
     SecondSingleCostComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
 })
