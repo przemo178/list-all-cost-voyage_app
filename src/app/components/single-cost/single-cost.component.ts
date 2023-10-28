@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommentGroupService } from 'src/app/services/comment-group.service';
-import { CostsService } from 'src/app/services/costs.service';
+import { ExchangeRatesService } from 'src/app/services/exchange-rates.service';
 
 @Component({
   selector: 'app-single-cost',
@@ -15,12 +15,11 @@ export class SingleCostComponent implements OnInit {
 
   constructor(
     private commentGroupService: CommentGroupService,
-    private costsService: CostsService
+    private exchangeRatesService: ExchangeRatesService
   ) {}
 
   ngOnInit(): void {
     this.subscribeToSelectedValue();
-    console.log(this.selectedValue);
   }
 
   toggleCommentGroup() {
@@ -29,7 +28,7 @@ export class SingleCostComponent implements OnInit {
   }
 
   subscribeToSelectedValue() {
-    this.costsService.selectedValue$.subscribe((value) => {
+    this.exchangeRatesService.selectedValue$.subscribe((value) => {
       this.selectedValue = value;
     });
   }
