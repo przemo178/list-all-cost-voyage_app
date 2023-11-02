@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CostsContainerComponent } from './components/costs-container/costs-container.component';
-import { ExchangeRatesResolver } from './resolvers/exchange-rates.resolver';
+import { exchangeRatesResolver } from './resolvers/exchange-rates.resolver';
 
 const routes: Routes = [
   {
     path: '',
     component: CostsContainerComponent,
     resolve: {
-      paymentCurrencies: ExchangeRatesResolver,
+      exchangeRates: exchangeRatesResolver,
     },
   },
 ];
@@ -20,9 +20,9 @@ const routes: Routes = [
     // {
     //   provide: costsResolver,
     // },
-    {
-      provide: ExchangeRatesResolver,
-    },
+    // {
+    //   provide: ExchangeRatesResolver,
+    // },
   ],
 })
 export class AppRoutingModule {}

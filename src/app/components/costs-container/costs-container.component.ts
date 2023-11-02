@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import {
   ExchangeRates,
   PaymentCurrency,
@@ -28,11 +28,19 @@ export class CostsContainerComponent implements OnInit {
       this.selectedValue = value;
     });
 
-    // this.exchangeRatesService.getPaymentCurrencies().subscribe((data) => {
-    //   this.paymentCurrencies = data;
-    // });
-
-    this.paymentCurrencies = this.route.snapshot.data['paymentCurrencies'];
+    // this.paymentCurrencies = this.route.snapshot.data['paymentCurrencies'];
+    this.route.data
+      .pipe(
+        map((exchangeRates) => {
+          console.log(exchangeRates, 'exchange');
+          this.paymentCurrencies = exchangeRates['paymentCurrencies'];
+          return exchangeRates;
+        })
+      )
+      .subscribe((value) => {
+        console.log(value);
+      });
+    console.log(this.route.snapshot);
   }
 
   show() {

@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { ExchangeRates, PaymentCurrency } from '../models/exchange-rates.model';
 
 @Injectable({ providedIn: 'root' })
-export class ExchangeRatesService implements OnInit {
+export class ExchangeRatesService {
   private jsonUrl = '../assets/exchange-rates.json';
   private jsonData: any;
 
@@ -16,10 +16,6 @@ export class ExchangeRatesService implements OnInit {
 
   constructor(private http: HttpClient) {}
 
-  ngOnInit() {
-    // this.loadExchangeRates();
-  }
-
   // private loadExchangeRates() {
   //   this.http.get(this.jsonUrl).subscribe((data: any) => {
   //     this.jsonData = data;
@@ -28,10 +24,9 @@ export class ExchangeRatesService implements OnInit {
   //   });
   // }
 
-  getPaymentCurrencies(): Observable<PaymentCurrency[]> {
-    return this.http
-      .get<ExchangeRates>(this.jsonUrl)
-      .pipe(map((data) => data.paymentCurrencies));
+  getPaymentCurrencies(): Observable<ExchangeRates> {
+    return this.http.get<ExchangeRates>(this.jsonUrl);
+    // .pipe(map((data) => data.paymentCurrencies));
   }
 
   // fetchExchangeRatesData(): Observable<PaymentCurrency> {
