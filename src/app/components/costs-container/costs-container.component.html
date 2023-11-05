@@ -5,13 +5,14 @@
             <td>
                 <span>Currency</span>
                 <div>
-                    <select class="dropdown" (change)="updateSelectedValue($event)" [(ngModel)]="selectedValue">
+                    <!-- <select class="dropdown" (change)="updateSelectedValue($event)" [(ngModel)]="selectedValue"> -->
+                    <select class="dropdown" [(ngModel)]="selectedValue">
                         <option *ngFor="let currency of paymentCurrencies" [value]="currency.toCurrency">{{
                             currency.toCurrency }}</option>
                     </select>
                 </div>
                 <span>1 USD = 1.3161 {{ selectedValue }}</span>
-                <button (click)="show()">SHOW array</button>
+                <!-- <button (click)="show()">SHOW array</button> -->
             </td>
         </tr>
     </table>
