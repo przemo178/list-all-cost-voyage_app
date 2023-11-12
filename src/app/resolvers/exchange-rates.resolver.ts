@@ -41,7 +41,7 @@ export const exchangeRatesResolver: ResolveFn<ExchangeRates> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
   exchangeRatesService: ExchangeRatesService = inject(ExchangeRatesService)
-): Observable<ExchangeRates> => exchangeRatesService.getPaymentCurrencies();
+): Observable<ExchangeRates> => exchangeRatesService.getExchangeData();
 // .pipe(
 // filter<ExchangeRates>((exchangeRates: ExchangeRates) => !!exchangeRates),
 // tap(() => {

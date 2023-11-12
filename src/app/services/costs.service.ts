@@ -10,9 +10,6 @@ export class CostsService {
   constructor(private http: HttpClient) {}
 
   getCostsData(): Observable<CostsData> {
-    //   return this.http.get<CostsData>(this.jsonUrl);
-    const data = this.http.get<CostsData>(this.jsonUrl);
-    console.log('dane s serwisu!!!!!:', data);
-    return data;
+    return this.http.get<CostsData>(this.jsonUrl);
   }
 }
