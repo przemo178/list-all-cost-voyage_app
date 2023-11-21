@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommentGroupService } from 'src/app/services/comment-group.service';
+import { CostsService } from 'src/app/services/costs.service';
 import { ExchangeRatesService } from 'src/app/services/exchange-rates.service';
 
 @Component({
@@ -12,14 +13,43 @@ export class SingleCostComponent implements OnInit {
   inputDefaultValue = this.defaultValue.toFixed(2);
   placeholder = 'SGD';
   selectedValue: string = '';
+  baseQuotedValue: number = 1000;
+  baseCurrency: string | undefined;
+  baseExchangeRate: number | undefined;
+  correctedCourse: number | undefined;
+  initialCourseUsd: number | undefined;
+  baseCurrencyConverted: number | undefined;
 
   constructor(
     private commentGroupService: CommentGroupService,
-    private exchangeRatesService: ExchangeRatesService
+    private exchangeRatesService: ExchangeRatesService,
+    private costsService: CostsService
   ) {}
 
   ngOnInit(): void {
     this.subscribeToSelectedValue();
+    this.subscribeToCorrectedCourse();
+
+    this.costsService.getCostsData().subscribe((data) => {
+      this.baseCurrency = data.baseCurrency.currency;
+      this.baseExchangeRate = data.baseCurrency.exchangeRate;
+
+      if (this.baseExchangeRate !== undefined && this.baseExchangeRate !== 0) {
+        const correctedCourse = +(1 / this.baseExchangeRate).toFixed(4);
+        this.initialCourseUsd = correctedCourse;
+        this.correctedCourse = correctedCourse;
+      }
+    });
+
+    this.exchangeRatesService.selectedValue$.subscribe((value) => {
+      this.selectedValue = value;
+      // this.converte();
+    });
+
+    this.exchangeRatesService.correctedCourse$.subscribe((correctedCourse) => {
+      this.correctedCourse = correctedCourse;
+      // this.converte();
+    });
   }
 
   toggleCommentGroup() {
@@ -31,5 +61,24 @@ export class SingleCostComponent implements OnInit {
     this.exchangeRatesService.selectedValue$.subscribe((value) => {
       this.selectedValue = value;
     });
+  }
+
+  subscribeToCorrectedCourse() {
+    this.exchangeRatesService.correctedCourse$.subscribe((correctedCourse) => {
+      this.correctedCourse = correctedCourse;
+      this.converte();
+    });
+  }
+
+  converte() {
+    if (this.correctedCourse !== undefined) {
+      this.baseCurrencyConverted = +(
+        this.baseQuotedValue / this.correctedCourse
+      ).toFixed(2);
+      console.log(
+        'przeliczona wartość kursu wiersz 1:',
+        this.baseCurrencyConverted
+      );
+    }
   }
 }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, tap } from 'rxjs';
-import { ExchangeRates, PaymentCurrency } from '../models/exchange-rates.model';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { ExchangeRates } from '../models/exchange-rates.model';
 
 @Injectable({ providedIn: 'root' })
 export class ExchangeRatesService {
@@ -14,6 +14,12 @@ export class ExchangeRatesService {
   private selectedValueSource = new BehaviorSubject<string>('SGD');
   selectedValue$ = this.selectedValueSource.asObservable();
 
+  // Dodajemy nowy BehaviorSubject do przechowywania correctedCourse
+  private correctedCourseSource = new BehaviorSubject<number | undefined>(
+    undefined
+  );
+  correctedCourse$ = this.correctedCourseSource.asObservable();
+
   constructor(private http: HttpClient) {}
 
   getExchangeData(): Observable<ExchangeRates> {
@@ -22,5 +28,10 @@ export class ExchangeRatesService {
 
   setSelectedValue(value: string) {
     this.selectedValueSource.next(value);
+  }
+
+  // Nowa metoda do ustawiania correctedCourse
+  setCorrectedCourse(correctedCourse: number) {
+    this.correctedCourseSource.next(correctedCourse);
   }
 }
