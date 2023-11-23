@@ -18,7 +18,7 @@ export class SecondSingleCostComponent implements OnInit {
   baseExchangeRate: number | undefined;
   correctedCourse: number | undefined;
   initialCourseUsd: number | undefined;
-  baseCurrencyConverted: number | undefined;
+  baseQuotedValueConvertedToUsd: number | undefined;
 
   constructor(
     private commentGroupService: CommentGroupService,
@@ -27,6 +27,8 @@ export class SecondSingleCostComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('SecondSingleCostComponent initialized');
+
     this.subscribeToSelectedValue();
     this.subscribeToCorrectedCourse();
 
@@ -72,12 +74,12 @@ export class SecondSingleCostComponent implements OnInit {
 
   converte() {
     if (this.correctedCourse !== undefined) {
-      this.baseCurrencyConverted = +(
+      this.baseQuotedValueConvertedToUsd = +(
         this.baseQuotedValue / this.correctedCourse
       ).toFixed(2);
       console.log(
         'przeliczona wartość kursu wiersz 2:',
-        this.baseCurrencyConverted
+        this.baseQuotedValueConvertedToUsd
       );
     }
   }

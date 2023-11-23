@@ -10,14 +10,15 @@
             </div>
             <div>
                 <span style="font-size: 12px;">USD</span>
-                <span style="font-size: 12px;">{{ baseCurrencyConverted }}</span>
+                <span style="font-size: 12px;">{{ baseQuotedValueConvertedToUsd?.toFixed(2) }}</span>
             </div>
         </td>
         <td>
-            <input type="text" [placeholder]="placeholder" [(ngModel)]="inputDefaultValue">
+            <!-- <input type="text" [placeholder]="placeholder" [(ngModel)]="inputDefaultValue"> -->
+            <input type="number" [placeholder]="placeholder" [(ngModel)]="inputValue" (input)="onInputChange()">
             <div>
                 <span style="font-size: 12px;">USD</span>
-                <span style="font-size: 12px;">1519.64</span>
+                <span style="font-size: 12px;">{{ inputValueConvertedToUsd?.toFixed(2) }}</span>
             </div>
         </td>
         <td>

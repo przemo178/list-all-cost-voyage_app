@@ -6,7 +6,6 @@ import { ExchangeRates } from '../models/exchange-rates.model';
 @Injectable({ providedIn: 'root' })
 export class ExchangeRatesService {
   private jsonUrl = '../assets/exchange-rates.json';
-  private jsonData: any;
 
   // private paymentCurrenciesSubject = new BehaviorSubject<PaymentCurrency[]>([]);
   // paymentCurrencies$ = this.paymentCurrenciesSubject.asObservable();

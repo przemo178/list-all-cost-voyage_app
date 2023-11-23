@@ -18,7 +18,9 @@ export class SingleCostComponent implements OnInit {
   baseExchangeRate: number | undefined;
   correctedCourse: number | undefined;
   initialCourseUsd: number | undefined;
-  baseCurrencyConverted: number | undefined;
+  baseQuotedValueConvertedToUsd: number | undefined;
+  inputValue: number = 2000;
+  inputValueConvertedToUsd: number | undefined;
 
   constructor(
     private commentGroupService: CommentGroupService,
@@ -27,6 +29,8 @@ export class SingleCostComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('SingleCostComponent initialized');
+
     this.subscribeToSelectedValue();
     this.subscribeToCorrectedCourse();
 
@@ -67,18 +71,32 @@ export class SingleCostComponent implements OnInit {
     this.exchangeRatesService.correctedCourse$.subscribe((correctedCourse) => {
       this.correctedCourse = correctedCourse;
       this.converte();
+      this.converteInput();
     });
   }
 
   converte() {
     if (this.correctedCourse !== undefined) {
-      this.baseCurrencyConverted = +(
+      this.baseQuotedValueConvertedToUsd = +(
         this.baseQuotedValue / this.correctedCourse
       ).toFixed(2);
       console.log(
         'przeliczona wartość kursu wiersz 1:',
-        this.baseCurrencyConverted
+        this.baseQuotedValueConvertedToUsd
       );
+    }
+  }
+
+  onInputChange() {
+    this.converteInput();
+  }
+
+  converteInput() {
+    if (this.correctedCourse !== undefined) {
+      this.inputValueConvertedToUsd = +(
+        this.inputValue / this.correctedCourse
+      ).toFixed(2);
+      console.log('Converte input wiersz 1:', this.inputValueConvertedToUsd);
     }
   }
 }

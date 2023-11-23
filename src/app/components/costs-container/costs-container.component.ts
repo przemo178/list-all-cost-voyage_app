@@ -18,6 +18,9 @@ export class CostsContainerComponent implements OnInit {
   baseExchangeRate: number | undefined;
   correctedCourse: number | undefined;
   initialCourseUsd: number | undefined;
+  baseQuotedValueBargeExpenses: number | undefined;
+  baseQuotedValueFireGuard: number | undefined;
+  baseQuotedValues: number | undefined;
 
   constructor(
     private exchangeRatesService: ExchangeRatesService,
@@ -25,9 +28,22 @@ export class CostsContainerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('CostsContainerComponent initialized');
+
     this.exchangeRatesService.selectedValue$.subscribe((value) => {
       this.selectedValue = value;
     });
+
+    // Pobierz wartości z serwisu
+    // this.baseQuotedValueBargeExpenses =
+    //   this.exchangeRatesService.baseQuotedValueBargeExpenses;
+    // console.log(
+    //   'baseQuotedValueBargeExpenses: ',
+    //   this.baseQuotedValueBargeExpenses
+    // );
+    // this.baseQuotedValueFireGuard =
+    //   this.exchangeRatesService.baseQuotedValueFireGuard;
+    // console.log('baseQuotedValueFireGuard: ', this.baseQuotedValueFireGuard);
 
     // Subskrybuj do zmian correctedCourse z ExchangeRatesService
     this.exchangeRatesService.correctedCourse$.subscribe((correctedCourse) => {
