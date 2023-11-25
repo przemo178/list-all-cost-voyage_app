@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommentGroupService } from 'src/app/services/comment-group.service';
-import { CostsService } from 'src/app/services/costs.service';
 import { ExchangeRatesService } from 'src/app/services/exchange-rates.service';
+import { SharedDataService } from 'src/app/services/shared-data.service';
 
 @Component({
   selector: 'app-second-single-cost',
@@ -9,49 +9,54 @@ import { ExchangeRatesService } from 'src/app/services/exchange-rates.service';
   styleUrls: ['./second-single-cost.component.scss'],
 })
 export class SecondSingleCostComponent implements OnInit {
-  defaultValue: number = 1000;
-  inputDefaultValue = this.defaultValue.toFixed(2);
-  placeholder = 'SGD';
   selectedValue: string = '';
   baseQuotedValue: number = 2000;
   baseCurrency: string | undefined;
-  baseExchangeRate: number | undefined;
   correctedCourse: number | undefined;
-  initialCourseUsd: number | undefined;
   baseQuotedValueConvertedToUsd: number | undefined;
+  inputValue: number = 1000;
+  inputValueConvertedToUsd: number | undefined;
 
   constructor(
     private commentGroupService: CommentGroupService,
     private exchangeRatesService: ExchangeRatesService,
-    private costsService: CostsService
+    private sharedDataService: SharedDataService
   ) {}
 
   ngOnInit(): void {
     console.log('SecondSingleCostComponent initialized');
 
+    this.sharedDataService.baseCurrency$.subscribe((baseCurrency) => {
+      this.baseCurrency = baseCurrency;
+      console.log('baseCurrency z single:', this.baseCurrency);
+    });
+
     this.subscribeToSelectedValue();
     this.subscribeToCorrectedCourse();
 
-    this.costsService.getCostsData().subscribe((data) => {
-      this.baseCurrency = data.baseCurrency.currency;
-      this.baseExchangeRate = data.baseCurrency.exchangeRate;
+    // this.costsService.getCostsData().subscribe((data) => {
+    //   this.baseCurrency = data.baseCurrency.currency;
+    //   this.baseExchangeRate = data.baseCurrency.exchangeRate;
 
-      if (this.baseExchangeRate !== undefined && this.baseExchangeRate !== 0) {
-        const correctedCourse = +(1 / this.baseExchangeRate).toFixed(4);
-        this.initialCourseUsd = correctedCourse;
-        this.correctedCourse = correctedCourse;
-      }
-    });
+    //   if (this.baseExchangeRate !== undefined && this.baseExchangeRate !== 0) {
+    //     const correctedCourse = +(1 / this.baseExchangeRate).toFixed(4);
+    //     this.initialCourseUsd = correctedCourse;
+    //     this.correctedCourse = correctedCourse;
+    //   }
+    // });
 
-    this.exchangeRatesService.selectedValue$.subscribe((value) => {
-      this.selectedValue = value;
-      // this.converte();
-    });
+    // this.exchangeRatesService.selectedValue$.subscribe((value) => {
+    //   this.selectedValue = value;
+    //   // this.converte();
+    // });
 
-    this.exchangeRatesService.correctedCourse$.subscribe((correctedCourse) => {
-      this.correctedCourse = correctedCourse;
-      // this.converte();
-    });
+    // this.exchangeRatesService.correctedCourse$.subscribe((correctedCourse) => {
+    //   this.correctedCourse = correctedCourse;
+    //   // this.converte();
+    // });
+
+    this.selectedValue = this.sharedDataService.selectedValue;
+    this.correctedCourse = this.sharedDataService.correctedCourse;
   }
 
   toggleCommentGroup() {
@@ -69,6 +74,7 @@ export class SecondSingleCostComponent implements OnInit {
     this.exchangeRatesService.correctedCourse$.subscribe((correctedCourse) => {
       this.correctedCourse = correctedCourse;
       this.converte();
+      this.converteInput();
     });
   }
 
@@ -81,6 +87,19 @@ export class SecondSingleCostComponent implements OnInit {
         'przeliczona wartość kursu wiersz 2:',
         this.baseQuotedValueConvertedToUsd
       );
+    }
+  }
+
+  onInputChange() {
+    this.converteInput();
+  }
+
+  converteInput() {
+    if (this.correctedCourse !== undefined) {
+      this.inputValueConvertedToUsd = +(
+        this.inputValue / this.correctedCourse
+      ).toFixed(2);
+      console.log('Converte input wiersz 2:', this.inputValueConvertedToUsd);
     }
   }
 }

@@ -4,6 +4,7 @@ import { CostsData } from 'src/app/models/costs.model';
 import { PaymentCurrency } from 'src/app/models/exchange-rates.model';
 import { CostsService } from 'src/app/services/costs.service';
 import { ExchangeRatesService } from 'src/app/services/exchange-rates.service';
+import { SharedDataService } from 'src/app/services/shared-data.service';
 
 @Component({
   selector: 'app-costs-container',
@@ -24,7 +25,8 @@ export class CostsContainerComponent implements OnInit {
 
   constructor(
     private exchangeRatesService: ExchangeRatesService,
-    private costsService: CostsService
+    private costsService: CostsService,
+    private sharedDataService: SharedDataService
   ) {}
 
   ngOnInit(): void {
@@ -68,6 +70,7 @@ export class CostsContainerComponent implements OnInit {
       this.baseExchangeRate = data.baseCurrency.exchangeRate;
       console.log('Base Currency:', this.baseCurrency);
       console.log('Base Exchange Rate:', this.baseExchangeRate);
+      this.sharedDataService.setBaseCurrency(this.baseCurrency);
 
       // Oblicz odwrotność kursu
       if (this.baseExchangeRate !== undefined && this.baseExchangeRate !== 0) {
@@ -80,6 +83,9 @@ export class CostsContainerComponent implements OnInit {
         this.exchangeRatesService.setCorrectedCourse(correctedCourse);
       }
     });
+
+    this.sharedDataService.selectedValue = this.selectedValue;
+    this.sharedDataService.correctedCourse = this.correctedCourse;
 
     this.exchangeRatesService
       .getExchangeData()
