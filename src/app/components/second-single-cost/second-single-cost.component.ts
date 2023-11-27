@@ -28,7 +28,6 @@ export class SecondSingleCostComponent implements OnInit {
 
     this.sharedDataService.baseCurrency$.subscribe((baseCurrency) => {
       this.baseCurrency = baseCurrency;
-      console.log('baseCurrency z single:', this.baseCurrency);
     });
 
     this.subscribeToSelectedValue();
@@ -57,16 +56,25 @@ export class SecondSingleCostComponent implements OnInit {
 
     this.selectedValue = this.sharedDataService.selectedValue;
     this.correctedCourse = this.sharedDataService.correctedCourse;
+
+    this.sharedDataService.inputValueSecond$.subscribe((value) => {
+      this.inputValue = value;
+    });
   }
 
   toggleCommentGroup() {
-    this.commentGroupService.isCommentGroupVisible =
-      !this.commentGroupService.isCommentGroupVisible;
+    this.commentGroupService.isCommentTwoGroupVisible =
+      !this.commentGroupService.isCommentTwoGroupVisible;
   }
 
   subscribeToSelectedValue() {
     this.exchangeRatesService.selectedValue$.subscribe((value) => {
       this.selectedValue = value;
+      // Dodaj subskrypcję zmiany selectedValue
+      this.sharedDataService.baseCurrency$.subscribe(() => {
+        // Resetuj sumValues po zmianie selectedValue
+        this.sharedDataService.resetSumValues();
+      });
     });
   }
 
@@ -75,6 +83,10 @@ export class SecondSingleCostComponent implements OnInit {
       this.correctedCourse = correctedCourse;
       this.converte();
       this.converteInput();
+      this.sharedDataService.updateSumValues(
+        this.inputValueConvertedToUsd ?? 0
+      );
+      this.sharedDataService.inputValueSecond = this.inputValue;
     });
   }
 
@@ -83,15 +95,12 @@ export class SecondSingleCostComponent implements OnInit {
       this.baseQuotedValueConvertedToUsd = +(
         this.baseQuotedValue / this.correctedCourse
       ).toFixed(2);
-      console.log(
-        'przeliczona wartość kursu wiersz 2:',
-        this.baseQuotedValueConvertedToUsd
-      );
     }
   }
 
   onInputChange() {
     this.converteInput();
+    this.sharedDataService.inputValueSecond = this.inputValue;
   }
 
   converteInput() {
@@ -99,7 +108,6 @@ export class SecondSingleCostComponent implements OnInit {
       this.inputValueConvertedToUsd = +(
         this.inputValue / this.correctedCourse
       ).toFixed(2);
-      console.log('Converte input wiersz 2:', this.inputValueConvertedToUsd);
     }
   }
 }

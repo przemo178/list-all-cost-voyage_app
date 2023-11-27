@@ -22,6 +22,8 @@ export class CostsContainerComponent implements OnInit {
   baseQuotedValueBargeExpenses: number | undefined;
   baseQuotedValueFireGuard: number | undefined;
   baseQuotedValues: number | undefined;
+  sumValues: number = 0;
+  sumInputValues: number = 0;
 
   constructor(
     private exchangeRatesService: ExchangeRatesService,
@@ -35,17 +37,6 @@ export class CostsContainerComponent implements OnInit {
     this.exchangeRatesService.selectedValue$.subscribe((value) => {
       this.selectedValue = value;
     });
-
-    // Pobierz wartości z serwisu
-    // this.baseQuotedValueBargeExpenses =
-    //   this.exchangeRatesService.baseQuotedValueBargeExpenses;
-    // console.log(
-    //   'baseQuotedValueBargeExpenses: ',
-    //   this.baseQuotedValueBargeExpenses
-    // );
-    // this.baseQuotedValueFireGuard =
-    //   this.exchangeRatesService.baseQuotedValueFireGuard;
-    // console.log('baseQuotedValueFireGuard: ', this.baseQuotedValueFireGuard);
 
     // Subskrybuj do zmian correctedCourse z ExchangeRatesService
     this.exchangeRatesService.correctedCourse$.subscribe((correctedCourse) => {
@@ -86,6 +77,25 @@ export class CostsContainerComponent implements OnInit {
 
     this.sharedDataService.selectedValue = this.selectedValue;
     this.sharedDataService.correctedCourse = this.correctedCourse;
+
+    this.sharedDataService.sumValues$.subscribe((value) => {
+      this.sumValues = value;
+      console.log('sumValues: ', this.sumValues);
+    });
+
+    // Dodaj subskrypcję zmiany selectedValue
+    this.sharedDataService.baseCurrency$.subscribe(() => {
+      // Resetuj sumValues po zmianie selectedValue
+      this.sharedDataService.resetSumValues();
+    });
+
+    this.sharedDataService.inputValueSingle$.subscribe(() => {
+      this.calculateInputSum();
+    });
+
+    this.sharedDataService.inputValueSecond$.subscribe(() => {
+      this.calculateInputSum();
+    });
 
     this.exchangeRatesService
       .getExchangeData()
@@ -147,5 +157,11 @@ export class CostsContainerComponent implements OnInit {
       this.exchangeRatesService.setCorrectedCourse(correctedCourse);
       console.log('Result:', this.correctedCourse);
     }
+  }
+
+  calculateInputSum(): void {
+    this.sumInputValues =
+      this.sharedDataService.inputValueSingle +
+      this.sharedDataService.inputValueSecond;
   }
 }

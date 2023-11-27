@@ -28,7 +28,6 @@ export class SingleCostComponent implements OnInit {
 
     this.sharedDataService.baseCurrency$.subscribe((baseCurrency) => {
       this.baseCurrency = baseCurrency;
-      console.log('baseCurrency z single:', this.baseCurrency);
     });
 
     this.subscribeToSelectedValue();
@@ -36,6 +35,10 @@ export class SingleCostComponent implements OnInit {
 
     this.selectedValue = this.sharedDataService.selectedValue;
     this.correctedCourse = this.sharedDataService.correctedCourse;
+
+    this.sharedDataService.inputValueSingle$.subscribe((value) => {
+      this.inputValue = value;
+    });
   }
 
   toggleCommentGroup() {
@@ -46,6 +49,11 @@ export class SingleCostComponent implements OnInit {
   subscribeToSelectedValue() {
     this.exchangeRatesService.selectedValue$.subscribe((value) => {
       this.selectedValue = value;
+      // Dodaj subskrypcję zmiany selectedValue
+      this.sharedDataService.baseCurrency$.subscribe(() => {
+        // Resetuj sumValues po zmianie selectedValue
+        this.sharedDataService.resetSumValues();
+      });
     });
   }
 
@@ -54,6 +62,10 @@ export class SingleCostComponent implements OnInit {
       this.correctedCourse = correctedCourse;
       this.converte();
       this.converteInput();
+      this.sharedDataService.updateSumValues(
+        this.inputValueConvertedToUsd ?? 0
+      );
+      this.sharedDataService.inputValueSingle = this.inputValue;
     });
   }
 
@@ -71,6 +83,7 @@ export class SingleCostComponent implements OnInit {
 
   onInputChange() {
     this.converteInput();
+    this.sharedDataService.inputValueSingle = this.inputValue;
   }
 
   converteInput() {
