@@ -21,9 +21,10 @@ export class CostsContainerComponent implements OnInit {
   initialCourseUsd: number | undefined;
   baseQuotedValueBargeExpenses: number | undefined;
   baseQuotedValueFireGuard: number | undefined;
-  baseQuotedValues: number | undefined;
-  sumValues: number = 0;
+  baseQuotedValues: number = 3000;
+  sumUsdValues: number = 0;
   sumInputValues: number = 0;
+  sumUsdInputValues: number = 0;
 
   constructor(
     private exchangeRatesService: ExchangeRatesService,
@@ -78,9 +79,25 @@ export class CostsContainerComponent implements OnInit {
     this.sharedDataService.selectedValue = this.selectedValue;
     this.sharedDataService.correctedCourse = this.correctedCourse;
 
-    this.sharedDataService.sumValues$.subscribe((value) => {
-      this.sumValues = value;
-      console.log('sumValues: ', this.sumValues);
+    this.sharedDataService.sumUsdValues$.subscribe((value) => {
+      this.sumUsdValues = value;
+      console.log('sumUsdValues: ', this.sumUsdValues);
+    });
+
+    this.sharedDataService.inputValueFirst$.subscribe(() => {
+      this.calculateInputSum();
+    });
+
+    this.sharedDataService.inputValueSecond$.subscribe(() => {
+      this.calculateInputSum();
+    });
+
+    this.sharedDataService.inputUsdValueFirst$.subscribe(() => {
+      this.calculateUsdInputSum();
+    });
+
+    this.sharedDataService.inputUsdValueSecond$.subscribe(() => {
+      this.calculateUsdInputSum();
     });
 
     // Dodaj subskrypcję zmiany selectedValue
@@ -89,13 +106,10 @@ export class CostsContainerComponent implements OnInit {
       this.sharedDataService.resetSumValues();
     });
 
-    this.sharedDataService.inputValueSingle$.subscribe(() => {
-      this.calculateInputSum();
-    });
-
-    this.sharedDataService.inputValueSecond$.subscribe(() => {
-      this.calculateInputSum();
-    });
+    // this.sharedDataService.sumUsdInputValues$.subscribe((value) => {
+    //   this.sumUsdInputValues = value;
+    //   console.log('sumUsdInputValues: ', this.sumUsdInputValues);
+    // });
 
     this.exchangeRatesService
       .getExchangeData()
@@ -161,7 +175,13 @@ export class CostsContainerComponent implements OnInit {
 
   calculateInputSum(): void {
     this.sumInputValues =
-      this.sharedDataService.inputValueSingle +
+      this.sharedDataService.inputValueFirst +
       this.sharedDataService.inputValueSecond;
+  }
+
+  calculateUsdInputSum(): void {
+    this.sumUsdInputValues =
+      this.sharedDataService.inputUsdValueFirst +
+      this.sharedDataService.inputUsdValueSecond;
   }
 }

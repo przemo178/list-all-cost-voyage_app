@@ -60,6 +60,13 @@ export class SecondSingleCostComponent implements OnInit {
     this.sharedDataService.inputValueSecond$.subscribe((value) => {
       this.inputValue = value;
     });
+
+    this.sharedDataService.inputUsdValueSecond$.subscribe((value) => {
+      this.inputValueConvertedToUsd = value;
+    });
+
+    // Ustaw wartość początkową w SharedDataService
+    this.sharedDataService.inputUsdValueSecond = this.inputValueConvertedToUsd!;
   }
 
   toggleCommentGroup() {
@@ -83,10 +90,13 @@ export class SecondSingleCostComponent implements OnInit {
       this.correctedCourse = correctedCourse;
       this.converte();
       this.converteInput();
-      this.sharedDataService.updateSumValues(
-        this.inputValueConvertedToUsd ?? 0
+      this.sharedDataService.updateSumUsdValues(
+        this.baseQuotedValueConvertedToUsd ?? 0
       );
       this.sharedDataService.inputValueSecond = this.inputValue;
+      // this.sharedDataService.updateSumUsdInputValues(
+      //   this.inputValueConvertedToUsd ?? 0
+      // );
     });
   }
 
@@ -101,6 +111,7 @@ export class SecondSingleCostComponent implements OnInit {
   onInputChange() {
     this.converteInput();
     this.sharedDataService.inputValueSecond = this.inputValue;
+    this.sharedDataService.inputUsdValueSecond = this.inputValueConvertedToUsd!;
   }
 
   converteInput() {
