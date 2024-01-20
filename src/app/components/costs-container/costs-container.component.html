@@ -5,6 +5,7 @@
             <td>
                 <span>Currency</span>
                 <div>
+                    <!-- wywołanie funkcji updateSelectedValue() w komponencie w momencie zmiany wartości w elemencie <select>. -->
                     <select class="dropdown" (change)="updateSelectedValue($event)" [(ngModel)]="selectedValue">
                         <option *ngFor="let currency of paymentCurrencies" [value]="currency.toCurrency">{{
                             currency.toCurrency }}</option>
@@ -17,6 +18,29 @@
             </td>
         </tr>
     </table>
+
+    <!-- <div class="costs-container">
+    <app-cost-group
+      *ngFor="let costGroup of costs.costs"
+      [costGroup]="costGroup"
+     [selectedCurrency]="selectedCurrency"
+      [exchangeRates]="exchangeRates"
+    ></app-cost-group>
+  </div> -->
+
+
+    <!-- TAK MA WYGLĄDAĆ STRUKTURA -->
+
+    <!-- <app-cost-group>
+    <app-single-cost>
+      <html>
+      <app-comment-group>
+         <app-single-comment>
+      </app-comment-group>
+      <app-comment-form>
+    </app-single-cost>
+  </app-cost-group> -->
+
 
     <table class="costsTable">
         <app-cost-group></app-cost-group>

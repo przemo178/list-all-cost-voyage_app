@@ -94,9 +94,9 @@ export class SecondSingleCostComponent implements OnInit {
         this.baseQuotedValueConvertedToUsd ?? 0
       );
       this.sharedDataService.inputValueSecond = this.inputValue;
-      // this.sharedDataService.updateSumUsdInputValues(
-      //   this.inputValueConvertedToUsd ?? 0
-      // );
+      this.sharedDataService.updateSumUsdInputValues(
+        this.inputValueConvertedToUsd ?? 0
+      );
     });
   }
 
