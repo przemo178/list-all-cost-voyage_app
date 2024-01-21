@@ -1,65 +1,63 @@
-.costsTable {
-  width: 100%;
-  border-collapse: collapse;
-  //   border: 1px solid gray;
+.singleCostContainer {
+  display: flex;
+  flex-direction: column;
+  height: 180px;
 
-  &__row2 {
-    td {
-      padding: 10px 15px;
-      background-color: #fff;
-      color: #000;
-    }
-
-    td:nth-child(1) {
-      width: 15%;
-      padding-left: 10px;
-    }
-    td:nth-child(2) {
-      padding-left: 10px;
-      width: 25%;
-    }
-    td:nth-child(3) {
-      width: 10%;
-      padding-right: 0;
-      text-align: end;
-    }
-    td:nth-child(4) {
-      width: 20%;
-      padding-right: 0;
-      text-align: end;
-    }
-    td:nth-child(5) {
-      width: 30%;
-      text-align: center;
-    }
+  .showData {
+    display: flex;
+    flex-direction: row;
+    flex-basis: 50%;
+    align-items: center;
 
     div {
-      color: gray;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-direction: column;
+      flex-grow: 1;
+      height: 100%;
+      width: 100%;
+      padding: 0 5px;
     }
 
-    span {
-      padding-left: 5px;
+    div:nth-child(3),
+    div:nth-child(4) {
+      align-items: flex-end;
+      color: #797676;
+      font-weight: bold;
+
+      p {
+        margin-bottom: 5px;
+      }
+    }
+
+    div:nth-child(5) {
+      flex-direction: row;
+      flex-basis: 150%;
+      align-items: center;
+      color: #797676;
+
+      .commentButton {
+        color: #797676;
+      }
     }
 
     input {
-      width: 90%;
-      height: 30px;
-      margin: 5px 0;
-      text-align: end;
-      font-weight: bold;
-    }
-    input::placeholder {
-      color: gray;
-      font-size: 12px;
-      text-align: left;
+      width: 80%;
+      height: 40%;
+      margin-bottom: 5px;
     }
 
-    i {
-      color: gray;
-    }
-
-    .commentButton {
+    a {
       text-decoration: none;
     }
+  }
+
+  .showCommentGroup {
+    flex-basis: 25%;
+  }
+
+  .showCommentForm {
+    flex-basis: 25%;
   }
 }

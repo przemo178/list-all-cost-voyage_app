@@ -1,12 +1,33 @@
-<table class="costsTable">
-    <tr class="costsTable__row1">
-        <td>Port Expenses</td>
-        <td>Account code</td>
-        <td>Quoted</td>
-        <td>Screened</td>
-        <td></td>
-    </tr>
-</table>
+<div class="costGroupContainer">
+    <div class="showTitle">
+        <p>Port Expenses</p>
+        <p>Account code</p>
+        <p>Quoted</p>
+        <p>Screened</p>
+        <p></p>
+    </div>
+
+    <div *ngFor="let cost of costsData?.costs">
+        <app-single-cost></app-single-cost>
+    </div>
+
+</div>
+
+
+
+
+
+<!-- <app-cost-group>
+    <app-single-cost>
+      <html> - czyli te rzeczy statyczne z costs.json
+      <app-comment-group>
+         <app-single-comment>
+      </app-comment-group>
+      <app-comment-form>
+    </app-single-cost>
+  </app-cost-group> -->
+
+
 
 <!-- <viewChldren na Costgroupie> -->
 
@@ -21,3 +42,16 @@ z tego możemy wyrzucić totalCosts!
 -->
 
 <!-- <appSingleCost ngFor ([costsItems z JSON, ])></appSingleCost> -->
+
+
+
+
+<!-- <table class="costsTable">
+    <tr class="costsTable__row1">
+        <td>Port Expenses</td>
+        <td>Account code</td>
+        <td>Quoted</td>
+        <td>Screened</td>
+        <td></td>
+    </tr>
+</table> -->

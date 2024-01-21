@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CostsService } from 'src/app/services/costs.service';
 
 @Component({
   selector: 'app-comment-form',
@@ -6,10 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./comment-form.component.scss'],
 })
 export class CommentFormComponent {
-  inputEnabled: boolean = false; // Zmienna do sterowania dostępności pola input
-
-  enableInput(event: any) {
-    const selectedValue = event.target.value;
-    this.inputEnabled = selectedValue === 'active';
-  }
+  // inputEnabled: boolean = false; // Zmienna do sterowania dostępności pola input
+  // enableInput(event: any) {
+  //   const selectedValue = event.target.value;
+  //   this.inputEnabled = selectedValue === 'active';
+  // }
+  // podejście drugie
 }

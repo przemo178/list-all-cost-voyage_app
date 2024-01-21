@@ -5,8 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  // defaultValue: number = 2000;
-  // inputDefaultValue = this.defaultValue.toFixed(2);
-  // placeholder = 'SGD';
-}
+export class AppComponent {}

@@ -46,6 +46,7 @@ export class CostsContainerComponent implements OnInit {
     // Metoda subscribe przyjmuje funkcję zwrotną, która zostanie wykonana, gdy nowe dane zostaną przekazane przez strumień. W tym przypadku, kiedy dane zostaną odebrane, funkcja zwrotna przypisuje wartość do zmiennej this.costsData.
     this.costsService.getCostsData().subscribe((allCostsData) => {
       this.costsData = allCostsData;
+      console.log('costs DATA: ', this.costsData);
     });
 
     // paymentCurrencies w komponencie zostanie zaktualizowane na podstawie przetworzonych danych uzyskanych z getExchangeData(). Operator pipe pozwala na przekształcanie danych w strumieniu. Operator map przekształca dane, przekazując je do funkcji zwrotnej. W tym przypadku, pobiera paymentCurrencies z obiektu exchangeRates. Metoda subscribe przyjmuje funkcję zwrotną, która zostanie wykonana, gdy nowe przetworzone dane zostaną przekazane przez strumień. W tym przypadku, kiedy dane zostaną przetworzone, funkcja zwrotna przypisuje wartość do zmiennej this.paymentCurrencies i wyświetla ją w konsoli.
