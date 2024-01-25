@@ -13,7 +13,9 @@
         </div>
     </div>
 
-    <app-cost-group></app-cost-group>
+    <app-cost-group *ngFor="let cost of costsData?.costs" [costGroup]="cost"></app-cost-group>
+    <!-- tutaj podwójnie wyświetla mi cost grupe -->
+
 
 </div>
 

@@ -1,18 +1,15 @@
 <div class="singleCostContainer">
     <div class="showData">
-        <!-- <div *ngFor="let cost of costsData?.costs">
-            <div *ngFor="let item of cost.costItems">
-                <p> {{ item.name }} </p>
-            </div>
-        </div> -->
+
         <div>
-            <p> {{ costsItemsArray[0]?.name }} </p>
+            <p> {{ singleCost.name }}</p>
         </div>
         <div>
-            <p>Acc-01</p>
+            <p>{{ singleCost.costItemAlias.accountingCode }}
+            </p>
         </div>
         <div>
-            <p>SGD 1000.00</p>
+            <p>SGD {{ singleCost.costs.amount }}</p> <!-- nie wyświetla mi danych z JSON w widoku -->
             <p>USD 759.82</p>
         </div>
         <div>
@@ -27,15 +24,11 @@
         </div>
     </div>
 
-    <div class="showCommentGroup">
-        <app-comment-group></app-comment-group>
-    </div>
-
-    <div class="showCommentForm">
-        <app-comment-form></app-comment-form>
-    </div>
+    <app-comment-group [comments]="singleCost.comments"></app-comment-group>
+    <app-comment-form [id]="singleCost.id"></app-comment-form> <!-- przekazać cost id w inpucie -->
 
 </div>
+
 
 
 

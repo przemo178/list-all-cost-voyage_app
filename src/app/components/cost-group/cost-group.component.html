@@ -1,17 +1,19 @@
 <div class="costGroupContainer">
-    <div class="showTitle">
-        <p>Port Expenses</p>
-        <p>Account code</p>
-        <p>Quoted</p>
-        <p>Screened</p>
-        <p></p>
-    </div>
+  <div class="showTitle">
+    <p>{{ costGroup.name }}</p>
+    <p>Account code</p>
+    <p>Quoted</p>
+    <p>Screened</p>
+    <p></p>
+  </div>
 
-    <div *ngFor="let cost of costsData?.costs">
-        <app-single-cost></app-single-cost>
-    </div>
+
+  <app-single-cost *ngFor="let singleCost of costGroup.costItems" [singleCost]="singleCost"></app-single-cost>
+
 
 </div>
+
+<!-- tutaj jeszcze TOTAL  za pomocą ViewChildren-->
 
 
 
@@ -42,16 +44,3 @@ z tego możemy wyrzucić totalCosts!
 -->
 
 <!-- <appSingleCost ngFor ([costsItems z JSON, ])></appSingleCost> -->
-
-
-
-
-<!-- <table class="costsTable">
-    <tr class="costsTable__row1">
-        <td>Port Expenses</td>
-        <td>Account code</td>
-        <td>Quoted</td>
-        <td>Screened</td>
-        <td></td>
-    </tr>
-</table> -->

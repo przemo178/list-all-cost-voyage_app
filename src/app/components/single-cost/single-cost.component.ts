@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { CostsData } from 'src/app/models/costs.model';
 import { CostsService } from 'src/app/services/costs.service';
 import { ExchangeRatesService } from 'src/app/services/exchange-rates.service';
 import { SharedDataService } from 'src/app/services/shared-data.service';
@@ -11,34 +10,11 @@ import { SharedDataService } from 'src/app/services/shared-data.service';
   styleUrls: ['./single-cost.component.scss'],
 })
 export class SingleCostComponent implements OnInit {
-  // moje drugie podejście
-  costsData: CostsData | undefined;
-  costsFirstElement: any;
-  costsItemsArray: any;
+  @Input() singleCost: any;
 
   constructor(private costsService: CostsService) {}
 
-  ngOnInit(): void {
-    // this.costsService.getCostsData().subscribe((allCostsData) => {
-    //   this.costsData = allCostsData;
-    //   console.log('costs DATA from SINGLE COST: ', this.costsData);
-    // });
-
-    this.costsService
-      .getCostsData()
-      .pipe(
-        map((data) => data.costs[0]) // użyj operatora map, aby zwrócić pierwszy obiekt z tablicy costs
-      )
-      .subscribe((firstCost) => {
-        this.costsFirstElement = firstCost; // przypisz wynik operatora map do zmiennej costsFirstElement
-        this.costsItemsArray = firstCost.costItems; // przypisz tablicę costItems do zmiennej costsItemsArray
-        console.log(
-          'costs FIRST ELEMENT from SINGLE COST: ',
-          this.costsFirstElement
-        );
-        console.log('costs ITEMS ARRAY: ', this.costsItemsArray);
-      });
-  }
+  ngOnInit(): void {}
 
   // this.exchangeRatesService
   //     .getExchangeData()

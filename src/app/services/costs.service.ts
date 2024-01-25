@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, shareReplay } from 'rxjs';
-import { CostsData } from '../models/costs.model';
+import { AllCostsData } from '../models/costs.model';
 
 @Injectable({ providedIn: 'root' })
 export class CostsService {
@@ -9,8 +9,8 @@ export class CostsService {
 
   constructor(private http: HttpClient) {}
 
-  getCostsData(): Observable<CostsData> {
-    return this.http.get<CostsData>(this.jsonUrl);
+  getCostsData(): Observable<AllCostsData> {
+    return this.http.get<AllCostsData>(this.jsonUrl);
   }
 
   // tutaj jest mój nowy kod z drugiego podejścia

@@ -1,15 +1,25 @@
 <div class="singleCommentContainer">
+
     <div class="typeOfComment">
-        <p>
-            Internal
-        </p>
+        <p>{{ singleComment.type }}</p>
     </div>
-    <div>Comment 1</div>
-    <div></div>
-    <div></div>
+
     <div>
-        <p>Mr.Agency BO</p>
-        <p>1 Mar 2021 14:15</p>
+        <p>{{ singleComment.comment }}</p>
+    </div>
+
+    <div></div>
+    <div></div>
+
+    <div>
+        <div>
+            <p>{{ singleComment.author }}</p>
+        </div>
+
+        <div>
+            <p>{{ singleComment.date | date: 'mediumDate' }}</p>
+        </div>
+
         <p><i class="fa-solid fa-pencil"></i> <i class="fa-regular fa-trash-can"></i></p>
     </div>
 </div>

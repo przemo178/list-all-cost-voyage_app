@@ -6,16 +6,16 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { Observable, catchError, of } from 'rxjs';
-import { CostsData } from '../models/costs.model';
+import { AllCostsData } from '../models/costs.model';
 import { CostsService } from '../services/costs.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class costsResolver implements Resolve<CostsData> {
+export class costsResolver implements Resolve<AllCostsData> {
   constructor(private costsService: CostsService) {}
 
-  resolve(): Observable<CostsData> {
+  resolve(): Observable<AllCostsData> {
     return this.costsService.getCostsData();
   }
 }

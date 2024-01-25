@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { CostsService } from 'src/app/services/costs.service';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-comment-form',
@@ -13,4 +12,5 @@ export class CommentFormComponent {
   //   this.inputEnabled = selectedValue === 'active';
   // }
   // podejście drugie
+  @Input() id: any;
 }

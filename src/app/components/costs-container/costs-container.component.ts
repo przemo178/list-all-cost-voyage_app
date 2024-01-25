@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { map, tap } from 'rxjs';
-import { CostsData } from 'src/app/models/costs.model';
+import { AllCostsData } from 'src/app/models/costs.model';
 import { PaymentCurrency } from 'src/app/models/exchange-rates.model';
 import { CostsService } from 'src/app/services/costs.service';
 import { ExchangeRatesService } from 'src/app/services/exchange-rates.service';
@@ -14,7 +14,6 @@ import { SharedDataService } from 'src/app/services/shared-data.service';
 export class CostsContainerComponent implements OnInit {
   selectedValue: string = '';
   paymentCurrencies: PaymentCurrency[] = [];
-  costsData: CostsData | undefined;
   baseCurrency: string | undefined;
   baseExchangeRate: number | undefined;
   correctedCourse: number | undefined;
@@ -25,6 +24,7 @@ export class CostsContainerComponent implements OnInit {
   sumUsdValues: number = 0;
   sumInputValues: number = 0;
   sumUsdInputValues: number = 0;
+  costsData: AllCostsData | undefined;
 
   constructor(
     private exchangeRatesService: ExchangeRatesService,

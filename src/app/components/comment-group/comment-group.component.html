@@ -2,7 +2,11 @@
     <div class="showComment">
     </div>
 
-    <app-single-comment></app-single-comment>
+
+
+    <app-single-comment *ngFor="let comment of comments" [singleComment]="comment"></app-single-comment>
+
+
 
 </div>
 
