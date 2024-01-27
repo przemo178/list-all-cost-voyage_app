@@ -1,4 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { map } from 'rxjs/operators';
 import { CostsService } from 'src/app/services/costs.service';
 import { ExchangeRatesService } from 'src/app/services/exchange-rates.service';
@@ -9,12 +18,16 @@ import { SharedDataService } from 'src/app/services/shared-data.service';
   templateUrl: './single-cost.component.html',
   styleUrls: ['./single-cost.component.scss'],
 })
-export class SingleCostComponent implements OnInit {
+export class SingleCostComponent {
   @Input() singleCost: any;
 
-  constructor(private costsService: CostsService) {}
+  @Input() inputValue: number = 0;
+  @Output() updateSum = new EventEmitter<number>();
 
-  ngOnInit(): void {}
+  // Funkcja wywoływana przy każdej zmianie wartości w inpucie
+  updateAllCostSum(value: number) {
+    this.updateSum.emit(value);
+  }
 
   // this.exchangeRatesService
   //     .getExchangeData()

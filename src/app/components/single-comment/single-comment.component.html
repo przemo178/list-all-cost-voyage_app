@@ -1,7 +1,7 @@
 <div class="singleCommentContainer">
 
-    <div class="typeOfComment">
-        <p>{{ singleComment.type }}</p>
+    <div>
+        <p [ngClass]="singleComment.type === 'internal' ? 'internal' : 'external'">{{ singleComment.type }}</p>
     </div>
 
     <div>
@@ -20,6 +20,8 @@
             <p>{{ singleComment.date | date: 'mediumDate' }}</p>
         </div>
 
-        <p><i class="fa-solid fa-pencil"></i> <i class="fa-regular fa-trash-can"></i></p>
+        <div>
+            <p><i class="fa-solid fa-pencil"></i> <i class="fa-regular fa-trash-can"></i></p>
+        </div>
     </div>
 </div>

@@ -8,8 +8,22 @@
   </div>
 
 
-  <app-single-cost *ngFor="let singleCost of costGroup.costItems" [singleCost]="singleCost"></app-single-cost>
+  <app-single-cost *ngFor="let singleCost of costGroup.costItems" [singleCost]="singleCost"
+    (updateSum)="calculateSum($event)"></app-single-cost>
 
+  <div class="total">
+    <h1>Total</h1>
+
+    <div>
+      <p>SGD </p>
+      <p>USD + jakaś suma</p>
+    </div>
+
+    <div>
+      <p>SUMA: {{ totalSum }}</p>
+      <p>USD + jakaś suma</p>
+    </div>
+  </div>
 
 </div>
 

@@ -13,7 +13,7 @@
             <p>USD 759.82</p>
         </div>
         <div>
-            <input type="number">
+            <input type="number" [(ngModel)]="inputValue" (ngModelChange)="updateAllCostSum(inputValue)">
             <p>USD 1519.64</p>
         </div>
         <div>

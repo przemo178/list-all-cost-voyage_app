@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { map, tap } from 'rxjs';
-import { AllCostsData } from 'src/app/models/costs.model';
+import { AllCostsData, Cost } from 'src/app/models/costs.model';
 import { PaymentCurrency } from 'src/app/models/exchange-rates.model';
 import { CostsService } from 'src/app/services/costs.service';
 import { ExchangeRatesService } from 'src/app/services/exchange-rates.service';
