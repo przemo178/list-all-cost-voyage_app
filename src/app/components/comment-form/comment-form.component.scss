@@ -24,6 +24,15 @@
     input {
       width: 100%;
     }
+
+    .error-container {
+      text-align: center;
+      color: red;
+
+      .error-item {
+        font-size: 12px;
+      }
+    }
   }
 
   .commentButton {
@@ -33,11 +42,16 @@
     button {
       padding: 0 30px;
       color: #fff;
-      background-color: royalblue;
+      background-color: rgb(65, 105, 225);
       font-weight: bold;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      transition: 0.3s;
+
+      &:hover {
+        background-color: rgba(65, 105, 225, 0.7);
+      }
     }
   }
 }

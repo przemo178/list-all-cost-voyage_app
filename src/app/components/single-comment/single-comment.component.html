@@ -1,7 +1,8 @@
 <div class="singleCommentContainer">
 
     <div>
-        <p [ngClass]="singleComment.type === 'internal' ? 'internal' : 'external'">{{ singleComment.type }}</p>
+        <p [ngClass]="singleComment.type.toLowerCase() === 'internal' ? 'internal' : 'external'">{{ singleComment.type
+            }}</p>
     </div>
 
     <div>

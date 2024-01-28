@@ -12,7 +12,12 @@
     (updateSum)="calculateSum($event)"></app-single-cost>
 
   <div class="total">
-    <h1>Total</h1>
+    <div>
+      <p>Total</p>
+    </div>
+
+    <div>
+    </div>
 
     <div>
       <p>SGD </p>
@@ -20,18 +25,22 @@
     </div>
 
     <div>
-      <p>SUMA: {{ totalSum }}</p>
+      <p>SUMA: {{ totalSum.toFixed(2) }}</p>
       <p>USD + jakaś suma</p>
     </div>
+
+    <div>
+    </div>
+
   </div>
 
 </div>
 
+
+
+
+
 <!-- tutaj jeszcze TOTAL  za pomocą ViewChildren-->
-
-
-
-
 
 <!-- <app-cost-group>
     <app-single-cost>

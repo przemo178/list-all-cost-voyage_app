@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, shareReplay } from 'rxjs';
 import { AllCostsData } from '../models/costs.model';
+import { SingleCostComponent } from '../components/single-cost/single-cost.component';
 
 @Injectable({ providedIn: 'root' })
 export class CostsService {
@@ -13,5 +14,10 @@ export class CostsService {
     return this.http.get<AllCostsData>(this.jsonUrl);
   }
 
-  // tutaj jest mój nowy kod z drugiego podejścia
+  calculateTotalSum(singleCosts: SingleCostComponent[]): number {
+    return singleCosts.reduce(
+      (sum, singleCost) => sum + singleCost.inputValue,
+      0
+    );
+  }
 }

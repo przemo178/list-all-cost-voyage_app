@@ -8,31 +8,34 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { SingleCostComponent } from '../single-cost/single-cost.component';
+import { CostsService } from 'src/app/services/costs.service';
 
 @Component({
   selector: 'app-cost-group',
   templateUrl: './cost-group.component.html',
   styleUrls: ['./cost-group.component.scss'],
 })
-export class CostGroupComponent implements AfterViewInit {
+export class CostGroupComponent implements OnInit {
   @Input() costGroup: any;
 
+  // @ViewChildren to dekorator w Angular używany do uzyskiwania dostępu do wszystkich wystąpień danego komponentu w widoku. W tym przypadku, ViewChildren(SingleCostComponent) oznacza, że chcesz uzyskać dostęp do wszystkich wystąpień komponentu SingleCostComponent w bieżącym widoku.
   @ViewChildren(SingleCostComponent)
   AllSingleCosts: QueryList<SingleCostComponent>;
 
   totalSum: number = 0;
 
-  ngAfterViewInit() {
-    // Opcjonalnie ustaw wartości początkowe dla instancji SingleCostComponent
-    // this.AllSingleCosts.forEach((singleCost) => {
-    //   singleCost.inputValue = 0;
-    // });
+  constructor(private costsService: CostsService) {}
+
+  ngOnInit(): void {
+    if (this.AllSingleCosts) {
+      const initialValue = 1;
+      this.calculateSum(initialValue);
+    }
   }
 
   calculateSum(updatedValue: number) {
-    this.totalSum = this.AllSingleCosts.reduce(
-      (sum, singleCost) => sum + singleCost.inputValue,
-      0
+    this.totalSum = this.costsService.calculateTotalSum(
+      this.AllSingleCosts.toArray()
     );
   }
 

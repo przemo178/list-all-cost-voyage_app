@@ -39,6 +39,28 @@
     align-items: center;
     padding: 0 5px;
     color: #fff;
-    background-color: rgb(23, 35, 71);
+    background-color: rgb(10, 14, 46);
+
+    div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100%;
+      width: 100%;
+      flex-grow: 1;
+      color: #fff;
+      font-weight: 700;
+      padding: 0 5px;
+    }
+
+    div:nth-child(3),
+    div:nth-child(4) {
+      align-items: flex-end;
+    }
+
+    div:nth-child(5) {
+      flex-basis: 150%;
+    }
   }
 }

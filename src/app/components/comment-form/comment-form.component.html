@@ -1,6 +1,6 @@
-<form class="commentFormContainer">
+<form class="commentFormContainer" [formGroup]="commentForm" (ngSubmit)="addComment()">
     <div class="commentDropdown">
-        <select>
+        <select formControlName="commentType">
             <option value="default">Select comment type</option>
             <option value="internal">Internal</option>
             <option value="external">External</option>
@@ -8,32 +8,22 @@
     </div>
 
     <div class="commentInput">
-        <input type="text" placeholder="Type comment" disabled>
+        <input type="text" formControlName="commentText">
+
+        <div class="error-container" *ngIf="commentForm.controls['commentText'].invalid &&
+        commentForm.controls['commentText'].dirty || commentForm.controls['commentText'].touched">
+
+            <p class="error-item" *ngIf="commentForm.controls['commentText'].errors['required']">
+                Pole jest wymagane.
+            </p>
+            <p class="error-item" *ngIf="commentForm.controls['commentText'].errors['minlength']">
+                Minimalna długość to 5 znaków.
+            </p>
+        </div>
+
     </div>
 
     <div class="commentButton">
-        <button>Add</button>
+        <button type="submit" [disabled]="commentForm.invalid">Add</button>
     </div>
 </form>
-
-
-
-
-
-
-<!-- <tr class="commentOneTable__row2">
-    <td>
-        <div>
-            <select class="commentDropdown" (change)="enableInput($event)">
-                <option value="type" selected>Select comment type</option>
-                <option value="active">Comment</option>
-            </select>
-        </div>
-    </td>
-    <td>
-        <input type="text" placeholder="Type comment" [disabled]="!inputEnabled">
-    </td>
-    <td>
-        <button>Add</button>
-    </td>
-</tr> -->
