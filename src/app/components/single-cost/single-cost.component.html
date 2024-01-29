@@ -18,13 +18,13 @@
         </div>
         <div>
             <a href="#" type="button" class="commentButton">
-                <p><i class="fa-regular fa-message"></i> 1</p>
+                <p (click)="commentGroupVisible()"><i class="fa-regular fa-message"></i> 1</p>
             </a>
             <p><i class="fa-solid fa-arrows-up-down-left-right"></i></p>
         </div>
     </div>
 
-    <app-comment-group [comments]="singleCost.comments"></app-comment-group>
+    <app-comment-group [comments]="singleCost.comments" *ngIf="toggleCommentGroup"></app-comment-group>
     <app-comment-form [id]="singleCost.id"></app-comment-form> <!-- przekazać cost id w inpucie -->
 
 </div>

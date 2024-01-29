@@ -1,12 +1,11 @@
 .singleCostContainer {
   display: flex;
   flex-direction: column;
-  height: 180px;
 
   .showData {
     display: flex;
     flex-direction: row;
-    flex-basis: 50%;
+    height: 80px;
     align-items: center;
 
     div {

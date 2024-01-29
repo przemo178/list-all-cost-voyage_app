@@ -1,5 +1,7 @@
+import { Comment } from 'src/app/models/costs.model';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CostsService } from 'src/app/services/costs.service';
 
 @Component({
   selector: 'app-comment-form',
@@ -8,6 +10,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class CommentFormComponent implements OnInit {
   @Input() id: any;
+
+  constructor(private costsService: CostsService) {}
 
   public commentForm: FormGroup = new FormGroup({
     commentType: new FormControl('default', Validators.required),
@@ -33,5 +37,16 @@ export class CommentFormComponent implements OnInit {
     });
   }
 
-  addComment() {}
+  addComment() {
+    console.log(this.commentForm);
+
+    if (this.commentForm.valid) {
+      const comment: Partial<Comment> = {
+        type: this.commentForm.value.commentType,
+        comment: this.commentForm.value.commentText,
+      };
+
+      this.costsService.sendComment(comment);
+    }
+  }
 }

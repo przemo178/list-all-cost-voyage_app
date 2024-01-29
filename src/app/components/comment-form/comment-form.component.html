@@ -10,12 +10,7 @@
     <div class="commentInput">
         <input type="text" formControlName="commentText">
 
-        <div class="error-container" *ngIf="commentForm.controls['commentText'].invalid &&
-        commentForm.controls['commentText'].dirty || commentForm.controls['commentText'].touched">
-
-            <p class="error-item" *ngIf="commentForm.controls['commentText'].errors['required']">
-                Pole jest wymagane.
-            </p>
+        <div class="error-container" *ngIf="commentForm.controls['commentText'].invalid">
             <p class="error-item" *ngIf="commentForm.controls['commentText'].errors['minlength']">
                 Minimalna długość to 5 znaków.
             </p>

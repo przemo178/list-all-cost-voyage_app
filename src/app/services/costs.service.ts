@@ -8,10 +8,20 @@ import { SingleCostComponent } from '../components/single-cost/single-cost.compo
 export class CostsService {
   private jsonUrl = '../assets/costs.json';
 
+  private commentSubject = new Subject<any>();
+
   constructor(private http: HttpClient) {}
 
   getCostsData(): Observable<AllCostsData> {
     return this.http.get<AllCostsData>(this.jsonUrl);
+  }
+
+  sendComment(comment: any) {
+    this.commentSubject.next(comment);
+  }
+
+  getComment() {
+    return this.commentSubject.asObservable();
   }
 
   calculateTotalSum(singleCosts: SingleCostComponent[]): number {

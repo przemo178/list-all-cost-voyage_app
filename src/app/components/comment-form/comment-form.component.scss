@@ -25,6 +25,10 @@
       width: 100%;
     }
 
+    input.ng-invalid {
+      border: red 1px solid;
+    }
+
     .error-container {
       text-align: center;
       color: red;

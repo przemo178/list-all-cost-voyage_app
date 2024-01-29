@@ -24,6 +24,12 @@ export class SingleCostComponent {
   @Input() inputValue: number = 0;
   @Output() updateSum = new EventEmitter<number>();
 
+  toggleCommentGroup = true;
+
+  commentGroupVisible() {
+    this.toggleCommentGroup = !this.toggleCommentGroup;
+  }
+
   // Funkcja wywoływana przy każdej zmianie wartości w inpucie
   updateAllCostSum(value: number) {
     this.updateSum.emit(value);
