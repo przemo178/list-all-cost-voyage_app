@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Comment } from 'src/app/models/costs.model';
 import { CostsService } from 'src/app/services/costs.service';
 
 @Component({
@@ -7,15 +8,16 @@ import { CostsService } from 'src/app/services/costs.service';
   styleUrls: ['./comment-group.component.scss'],
 })
 export class CommentGroupComponent implements OnInit {
-  @Input() comments: any[] = [];
+  @Input() comments: Comment[] = [];
 
-  recivedComment: any;
+  recivedComment: Partial<Comment>;
 
   constructor(private costsService: CostsService) {}
 
   ngOnInit(): void {
     this.costsService.getComment().subscribe((comment) => {
       this.recivedComment = comment;
+      console.log('comment z COMMENT-GROUP: ', comment);
     });
   }
 }

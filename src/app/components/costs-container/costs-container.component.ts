@@ -79,46 +79,6 @@ export class CostsContainerComponent implements OnInit {
       }
     });
 
-    // Przypisanie wartości selectedValue (waluta) z komponentu do zmiennej selectedValue w serwisie SharedDataService.
-    this.sharedDataService.selectedValue = this.selectedValue;
-    // Przypisanie wartości correctedCourse (przeliczony kurs) z komponentu do zmiennej correctedCourse w serwisie SharedDataService.
-    this.sharedDataService.correctedCourse = this.correctedCourse;
-
-    // subskrybcja strumienia (Observable) sumUsdValues$ z serwisu SharedDataService i aktualizacja zmiennej sumUsdValues w komponencie na podstawie otrzymanej wartości.
-    this.sharedDataService.sumUsdValues$.subscribe((value) => {
-      // Aktualizacja zmiennej sumUsdValues w komponencie na podstawie otrzymanej wartości.
-      this.sumUsdValues = value;
-    });
-
-    // Subskrybcja strumienia inputValueFirst$ z serwisu SharedDataService. W przypadku każdej zmiany wartości w tym strumieniu (każdej akcji), wywołujesz funkcję calculateInputSum(). Działa to w taki sposób, że każda zmiana w strumieniach skutkuje wywołaniem odpowiedniej funkcji, co pozwala na aktualizację danych lub wykonanie innych operacji w zależności od tego, co jest potrzebne w danej chwili.
-    this.sharedDataService.inputValueFirst$.subscribe(() => {
-      this.calculateInputSum();
-    });
-
-    this.sharedDataService.inputValueSecond$.subscribe(() => {
-      this.calculateInputSum();
-    });
-
-    // // Subskrybcja strumienia inputUsdValueFirst$ z serwisu SharedDataService. W przypadku każdej zmiany wartości w tym strumieniu (każdej akcji), wywołujesz funkcję calculateUsdInputSum().
-    this.sharedDataService.inputUsdValueFirst$.subscribe(() => {
-      this.calculateUsdInputSum();
-    });
-
-    this.sharedDataService.inputUsdValueSecond$.subscribe(() => {
-      this.calculateUsdInputSum();
-    });
-
-    // Dodaj subskrypcję zmiany selectedValue. To podejście pozwala na kontrolowanie akcji, które mają być wykonane w momencie zmiany wartości baseCurrency. W tym przypadku, gdy baseCurrency się zmieni, wywoływana jest funkcja resetSumValues().
-    this.sharedDataService.baseCurrency$.subscribe(() => {
-      // Resetuj sumValues po zmianie selectedValue
-      this.sharedDataService.resetSumValues();
-    });
-
-    // this.sharedDataService.sumUsdInputValues$.subscribe((value) => {
-    //   this.sumUsdInputValues = value;
-    //   console.log('sumUsdInputValues: ', this.sumUsdInputValues);
-    // });
-
     this.exchangeRatesService
       .getExchangeData()
       .pipe(
@@ -132,13 +92,6 @@ export class CostsContainerComponent implements OnInit {
         })
       )
       .subscribe();
-
-    // this.exchangeRatesService.getExchangeData().subscribe((data) => {
-    //   this.exchangeRatesData = data;
-    //   console.log('Exchange Rates:', this.exchangeRatesData);
-    //   this.paymentCurrencies = this.exchangeRatesData.paymentCurrencies;
-    //   console.log('Payment Currencies:', this.paymentCurrencies);
-    // });
 
     // this.paymentCurrencies = this.route.snapshot.data['paymentCurrencies'];
 
@@ -182,18 +135,5 @@ export class CostsContainerComponent implements OnInit {
       this.exchangeRatesService.setCorrectedCourse(correctedCourse);
       console.log('Result:', this.correctedCourse);
     }
-  }
-
-  calculateInputSum(): void {
-    // Pobieranie wartości pierwszej i drugiej zmiennej (inputValueFirst, inputValueSecond) przechowywanych w serwisie SharedDataService. Nast przypisanie do zmiennej sumInputValues
-    this.sumInputValues =
-      this.sharedDataService.inputValueFirst +
-      this.sharedDataService.inputValueSecond;
-  }
-
-  calculateUsdInputSum(): void {
-    this.sumUsdInputValues =
-      this.sharedDataService.inputUsdValueFirst +
-      this.sharedDataService.inputUsdValueSecond;
   }
 }

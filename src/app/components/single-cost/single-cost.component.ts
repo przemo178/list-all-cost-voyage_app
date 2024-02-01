@@ -26,6 +26,7 @@ export class SingleCostComponent {
 
   toggleCommentGroup = true;
 
+  // metoda do przełączania widoczności comment-group
   commentGroupVisible() {
     this.toggleCommentGroup = !this.toggleCommentGroup;
   }

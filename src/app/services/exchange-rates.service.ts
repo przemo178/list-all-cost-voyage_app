@@ -7,9 +7,6 @@ import { ExchangeRates } from '../models/exchange-rates.model';
 export class ExchangeRatesService {
   private jsonUrl = '../assets/exchange-rates.json';
 
-  // private paymentCurrenciesSubject = new BehaviorSubject<PaymentCurrency[]>([]);
-  // paymentCurrencies$ = this.paymentCurrenciesSubject.asObservable();
-
   private selectedValueSource = new BehaviorSubject<string>('SGD');
   selectedValue$ = this.selectedValueSource.asObservable();
 

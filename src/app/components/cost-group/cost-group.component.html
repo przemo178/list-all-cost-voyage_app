@@ -1,5 +1,5 @@
 <div class="costGroupContainer">
-  <div class="showTitle">
+  <div class="costGroupContainer__showTitle">
     <p>{{ costGroup.name }}</p>
     <p>Account code</p>
     <p>Quoted</p>
@@ -11,7 +11,7 @@
   <app-single-cost *ngFor="let singleCost of costGroup.costItems" [singleCost]="singleCost"
     (updateSum)="calculateSum($event)"></app-single-cost>
 
-  <div class="total">
+  <div class="costGroupContainer__total">
     <div>
       <p>Total</p>
     </div>

@@ -1,10 +1,10 @@
 <div class="costsContainer">
 
-    <div class="showCosts">
+    <div class="costsContainer__showCosts">
         <h1>Costs</h1>
         <div>
             <h1>Currency</h1>
-            <select class="dropdown" (change)="updateSelectedValue($event)" [(ngModel)]="selectedValue">
+            <select (change)="updateSelectedValue($event)" [(ngModel)]="selectedValue">
                 <option *ngFor="let currency of paymentCurrencies" [value]="currency.toCurrency">{{
                     currency.toCurrency }}</option>
             </select>

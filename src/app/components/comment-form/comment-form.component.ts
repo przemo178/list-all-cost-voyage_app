@@ -37,6 +37,7 @@ export class CommentFormComponent implements OnInit {
     });
   }
 
+  // dodawanie komentarzy do comment-group
   addComment() {
     console.log(this.commentForm);
 

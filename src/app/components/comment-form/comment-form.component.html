@@ -1,5 +1,5 @@
 <form class="commentFormContainer" [formGroup]="commentForm" (ngSubmit)="addComment()">
-    <div class="commentDropdown">
+    <div class="commentFormContainer__commentDropdown">
         <select formControlName="commentType">
             <option value="default">Select comment type</option>
             <option value="internal">Internal</option>
@@ -7,7 +7,7 @@
         </select>
     </div>
 
-    <div class="commentInput">
+    <div class="commentFormContainer__commentInput">
         <input type="text" formControlName="commentText">
 
         <div class="error-container" *ngIf="commentForm.controls['commentText'].invalid">
@@ -18,7 +18,7 @@
 
     </div>
 
-    <div class="commentButton">
+    <div class="commentFormContainer__commentButton">
         <button type="submit" [disabled]="commentForm.invalid">Add</button>
     </div>
 </form>

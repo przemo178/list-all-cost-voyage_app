@@ -1,5 +1,5 @@
 <div class="singleCostContainer">
-    <div class="showData">
+    <div class="singleCostContainer__showData">
 
         <div>
             <p> {{ singleCost.name }}</p>
@@ -17,8 +17,9 @@
             <p>USD 1519.64</p>
         </div>
         <div>
-            <a href="#" type="button" class="commentButton">
+            <a href="#" type="button">
                 <p (click)="commentGroupVisible()"><i class="fa-regular fa-message"></i> 1</p>
+                <!--tutaj zamienić statyczną ilosc komentarzy z jsona - uzyc interpolacji-->
             </a>
             <p><i class="fa-solid fa-arrows-up-down-left-right"></i></p>
         </div>
