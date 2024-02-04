@@ -10,11 +10,11 @@ export class ExchangeRatesService {
   private selectedValueSource = new BehaviorSubject<string>('SGD');
   selectedValue$ = this.selectedValueSource.asObservable();
 
-  // Dodajemy nowy BehaviorSubject do przechowywania correctedCourse
-  private correctedCourseSource = new BehaviorSubject<number | undefined>(
+  // Dodajemy nowy BehaviorSubject do przechowywania calculatedRate
+  private calculatedRateSource = new BehaviorSubject<number | undefined>(
     undefined
   );
-  correctedCourse$ = this.correctedCourseSource.asObservable();
+  calculatedRate$ = this.calculatedRateSource.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -26,8 +26,8 @@ export class ExchangeRatesService {
     this.selectedValueSource.next(value);
   }
 
-  // Nowa metoda do ustawiania correctedCourse
-  setCorrectedCourse(correctedCourse: number) {
-    this.correctedCourseSource.next(correctedCourse);
+  // Nowa metoda do ustawiania calculatedRate
+  setRate(calculatedRate: number) {
+    this.calculatedRateSource.next(calculatedRate);
   }
 }

@@ -8,13 +8,19 @@
             <p>{{ singleCost.costItemAlias.accountingCode }}
             </p>
         </div>
+
+        <ng-container *ngFor="let quotedValue of singleCost.costs; let i = index">
+            <div *ngIf="i === 0">
+                <p>{{ selectedValue }} <span class="singleCostContainer__showData--main">{{
+                        (quotedValue.amount).toFixed(2) }}</span></p>
+                <p>{{ baseCurrency }} {{ calculateQuoted(quotedValue.amount) }}</p>
+            </div>
+        </ng-container>
+
         <div>
-            <p>SGD {{ singleCost.costs.amount }}</p> <!-- nie wyświetla mi danych z JSON w widoku -->
-            <p>USD 759.82</p>
-        </div>
-        <div>
-            <input type="number" [(ngModel)]="inputValue" (ngModelChange)="updateAllCostSum(inputValue)">
-            <p>USD 1519.64</p>
+            <input type="number" [(ngModel)]="inputValue" (ngModelChange)="updateAllCostSum(inputValue)"
+                placeholder="{{ selectedValue }}">
+            <p>{{ baseCurrency }} {{ calculateScreened() }}</p>
         </div>
         <div>
             <a href="#" type="button">

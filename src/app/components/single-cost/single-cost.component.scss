@@ -23,10 +23,10 @@
     div:nth-child(4) {
       align-items: flex-end;
       color: #797676;
-      font-weight: bold;
 
       p {
         margin-bottom: 5px;
+        font-size: 13px;
       }
     }
 
@@ -45,10 +45,22 @@
       width: 80%;
       height: 40%;
       margin-bottom: 5px;
+      color: #000;
+      text-align: right;
+
+      &::placeholder {
+        text-align: left;
+        color: rgba(0, 0, 0, 0.5);
+      }
     }
 
     a {
       text-decoration: none;
+    }
+
+    &--main {
+      color: #000;
+      font-size: 15px;
     }
   }
 }

@@ -9,6 +9,7 @@
 
 
   <app-single-cost *ngFor="let singleCost of costGroup.costItems" [singleCost]="singleCost"
+    [selectedValue]="selectedValue" [baseCurrency]="baseCurrency" [calculatedRate]="calculatedRate"
     (updateSum)="calculateSum($event)"></app-single-cost>
 
   <div class="costGroupContainer__total">
@@ -20,13 +21,13 @@
     </div>
 
     <div>
-      <p>SGD </p>
-      <p>USD + jakaś suma</p>
+      <p>{{ selectedValue }} <span class="costGroupContainer__total--main">(suma)</span></p>
+      <p>{{ baseCurrency }} (suma)</p>
     </div>
 
     <div>
-      <p>SUMA: {{ totalSum.toFixed(2) }}</p>
-      <p>USD + jakaś suma</p>
+      <p>{{ selectedValue }} <span class="costGroupContainer__total--main">{{ totalSum.toFixed(2) }}</span></p>
+      <p>{{ baseCurrency }} {{ convertSumToUsd() }}</p>
     </div>
 
     <div>
