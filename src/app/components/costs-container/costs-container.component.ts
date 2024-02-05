@@ -11,7 +11,7 @@ import { ExchangeRatesService } from 'src/app/services/exchange-rates.service';
   styleUrls: ['./costs-container.component.scss'],
 })
 export class CostsContainerComponent implements OnInit {
-  selectedValue: string = '';
+  selectedCurrency: string = '';
   paymentCurrencies: PaymentCurrency[] = [];
   baseCurrency: string | undefined;
   baseExchangeRate: number | undefined;
@@ -27,8 +27,8 @@ export class CostsContainerComponent implements OnInit {
 
   ngOnInit(): void {
     // To jest subskrypcja do obserwatora, która nasłuchuje zmian w strumieniu wartości związanej z selectedValue$ w serwisie ExchangeRatesService. Kiedy wartość selectedValue$ w serwisie ExchangeRatesService zmieni się, ta subskrypcja reaguje na zmianę. Funkcja przekazana do subscribe zostanie wykonana, a nowa wartość value będzie dostępna w ciele funkcji.
-    this.exchangeRatesService.selectedValue$.subscribe((value) => {
-      this.selectedValue = value;
+    this.exchangeRatesService.selectedCurrency$.subscribe((value) => {
+      this.selectedCurrency = value;
     });
 
     // Subskrybuj do zmian calculatedRate z ExchangeRatesService
@@ -104,13 +104,13 @@ export class CostsContainerComponent implements OnInit {
 
   calculate(event: Event) {
     // Pobranie wartości z dropdowna:
-    const selectedValue = (event.target as HTMLSelectElement).value;
+    const selectedCurrency = (event.target as HTMLSelectElement).value;
     // Ustawienie wybranej wartości w exchangeRatesService:
-    this.exchangeRatesService.setSelectedValue(selectedValue);
+    this.exchangeRatesService.setSelectedCurrency(selectedCurrency);
 
     // Pobierz obiekt waluty z paymentCurrencies
     const selectedCurrencyObject = this.paymentCurrencies.find(
-      (currency) => currency.toCurrency === selectedValue
+      (currency) => currency.toCurrency === selectedCurrency
     );
 
     // Sprawdź, czy obiekt został znaleziony

@@ -4,17 +4,17 @@
         <h1>Costs</h1>
         <div>
             <h1>Currency</h1>
-            <select (change)="calculate($event)" [(ngModel)]="selectedValue">
+            <select (change)="calculate($event)" [(ngModel)]="selectedCurrency">
                 <option *ngFor="let currency of paymentCurrencies" [value]="currency.toCurrency">{{
                     currency.toCurrency }}</option>
             </select>
 
-            <p>{{ initialUsdValue }} {{ baseCurrency }} = {{ calculatedRate }} {{ selectedValue }}</p>
+            <p>{{ initialUsdValue }} {{ baseCurrency }} = {{ calculatedRate }} {{ selectedCurrency }}</p>
         </div>
     </div>
 
 
-    <app-cost-group *ngFor="let cost of costsData?.costs" [costGroup]="cost" [selectedValue]="selectedValue"
+    <app-cost-group *ngFor="let cost of costsData?.costs" [costGroup]="cost" [selectedCurrency]="selectedCurrency"
         [baseCurrency]="baseCurrency" [calculatedRate]="calculatedRate"></app-cost-group>
     <!-- tutaj podwójnie wyświetla mi cost grupe -->
 

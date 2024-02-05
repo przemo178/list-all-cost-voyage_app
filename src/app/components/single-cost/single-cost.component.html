@@ -11,7 +11,7 @@
 
         <ng-container *ngFor="let quotedValue of singleCost.costs; let i = index">
             <div *ngIf="i === 0">
-                <p>{{ selectedValue }} <span class="singleCostContainer__showData--main">{{
+                <p>{{ selectedCurrency }} <span class="singleCostContainer__showData--main">{{
                         (quotedValue.amount).toFixed(2) }}</span></p>
                 <p>{{ baseCurrency }} {{ calculateQuoted(quotedValue.amount) }}</p>
             </div>
@@ -19,7 +19,7 @@
 
         <div>
             <input type="number" [(ngModel)]="inputValue" (ngModelChange)="updateAllCostSum(inputValue)"
-                placeholder="{{ selectedValue }}">
+                placeholder="{{ selectedCurrency }}">
             <p>{{ baseCurrency }} {{ calculateScreened() }}</p>
         </div>
         <div>

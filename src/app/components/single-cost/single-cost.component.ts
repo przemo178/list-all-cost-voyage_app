@@ -7,7 +7,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class SingleCostComponent {
   @Input() singleCost: any;
-  @Input() selectedValue: string;
+  @Input() selectedCurrency: string;
   @Input() baseCurrency: string;
   @Input() calculatedRate: number;
 
@@ -28,11 +28,11 @@ export class SingleCostComponent {
 
   // Funkcja do obliczenia Quoted value USD
   calculateQuoted(quotedValue: number) {
-    return (quotedValue * this.calculatedRate).toFixed(2);
+    return (quotedValue / this.calculatedRate).toFixed(2);
   }
 
   //  Funkcja do obliczenia Screened value USD z inputa
   calculateScreened() {
-    return (this.inputValue * this.calculatedRate).toFixed(2);
+    return (this.inputValue / this.calculatedRate).toFixed(2);
   }
 }

@@ -15,7 +15,7 @@ import { CostsService } from 'src/app/services/costs.service';
 })
 export class CostGroupComponent implements OnInit {
   @Input() costGroup: any;
-  @Input() selectedValue: string;
+  @Input() selectedCurrency: string;
   @Input() baseCurrency: string;
   @Input() calculatedRate: number;
 
@@ -42,7 +42,7 @@ export class CostGroupComponent implements OnInit {
   }
 
   convertSumToUsd() {
-    return (this.totalSum * this.calculatedRate).toFixed(2);
+    return (this.totalSum / this.calculatedRate).toFixed(2);
   }
 
   //   this.AllSingleCosts: Jest to kolekcja wszystkich komponentów SingleCostComponent, którą zbieramy za pomocą ViewChildren w rodzicu (ParentComponent).

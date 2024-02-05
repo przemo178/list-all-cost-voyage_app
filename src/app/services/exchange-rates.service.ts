@@ -7,8 +7,8 @@ import { ExchangeRates } from '../models/exchange-rates.model';
 export class ExchangeRatesService {
   private jsonUrl = '../assets/exchange-rates.json';
 
-  private selectedValueSource = new BehaviorSubject<string>('SGD');
-  selectedValue$ = this.selectedValueSource.asObservable();
+  private selectedCurrencySource = new BehaviorSubject<string>('SGD');
+  selectedCurrency$ = this.selectedCurrencySource.asObservable();
 
   // Dodajemy nowy BehaviorSubject do przechowywania calculatedRate
   private calculatedRateSource = new BehaviorSubject<number | undefined>(
@@ -22,8 +22,8 @@ export class ExchangeRatesService {
     return this.http.get<ExchangeRates>(this.jsonUrl);
   }
 
-  setSelectedValue(value: string) {
-    this.selectedValueSource.next(value);
+  setSelectedCurrency(value: string) {
+    this.selectedCurrencySource.next(value);
   }
 
   // Nowa metoda do ustawiania calculatedRate
