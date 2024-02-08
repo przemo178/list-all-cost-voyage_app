@@ -1,12 +1,13 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { CostItem } from 'src/app/models/costs.model';
 
 @Component({
   selector: 'app-single-cost',
   templateUrl: './single-cost.component.html',
   styleUrls: ['./single-cost.component.scss'],
 })
-export class SingleCostComponent {
-  @Input() singleCost: any;
+export class SingleCostComponent implements OnInit {
+  @Input() singleCost: CostItem;
   @Input() selectedCurrency: string;
   @Input() baseCurrency: string;
   @Input() calculatedRate: number;
@@ -15,6 +16,18 @@ export class SingleCostComponent {
   @Output() updateSum = new EventEmitter<number>();
 
   toggleCommentGroup = true;
+  quotedValue: number;
+
+  ngOnInit(): void {
+    this.getQuotedCost();
+  }
+
+  // metoda do pobrania wartości amount z JSONa
+  getQuotedCost(): void {
+    this.quotedValue = this.singleCost.costs.filter((cost) => {
+      cost.type === 'Quoted';
+    })[0]?.amount;
+  }
 
   // metoda do przełączania widoczności comment-group
   commentGroupVisible() {

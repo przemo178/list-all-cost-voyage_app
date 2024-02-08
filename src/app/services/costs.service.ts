@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject, shareReplay } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { AllCostsData, Comment } from '../models/costs.model';
-import { SingleCostComponent } from '../components/single-cost/single-cost.component';
 
 @Injectable({ providedIn: 'root' })
 export class CostsService {
@@ -29,10 +28,7 @@ export class CostsService {
   }
 
   // funkcja sumująca wartości z inputów single costów
-  calculateTotalSum(singleCosts: SingleCostComponent[]): number {
-    return singleCosts.reduce(
-      (sum, singleCost) => sum + singleCost.inputValue,
-      0
-    );
+  calculateTotalSum(inputsArray: number[]): number {
+    return inputsArray.reduce((sum, singleCost) => sum + singleCost, 0);
   }
 }

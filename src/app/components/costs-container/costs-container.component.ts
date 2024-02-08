@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { map, tap } from 'rxjs';
+import { BehaviorSubject, map, tap } from 'rxjs';
 import { AllCostsData } from 'src/app/models/costs.model';
 import { PaymentCurrency } from 'src/app/models/exchange-rates.model';
 import { CostsService } from 'src/app/services/costs.service';
@@ -11,14 +11,14 @@ import { ExchangeRatesService } from 'src/app/services/exchange-rates.service';
   styleUrls: ['./costs-container.component.scss'],
 })
 export class CostsContainerComponent implements OnInit {
-  selectedCurrency: string = '';
+  selectedCurrency: string = 'SGD';
   paymentCurrencies: PaymentCurrency[] = [];
-  baseCurrency: string | undefined;
-  baseExchangeRate: number | undefined;
-  calculatedRate: number | undefined; // jest to kurs przeliczony z USD na SGD, po to żeby wyświetlać przeliczenie 1 USD na dany kurs w COSTS-container
-  initialRateUsd: number | undefined; // jest to kurs przeliczony z USD na SGD, po to żeby przeliczać resztę kursów na jego podstawie
+  baseCurrency: string;
+  baseExchangeRate: number;
+  calculatedRate: number; // jest to kurs przeliczony z USD na SGD, po to żeby wyświetlać przeliczenie 1 USD na dany kurs w COSTS-container
+  initialRateUsd: number; // jest to kurs przeliczony z USD na SGD, po to żeby przeliczać resztę kursów na jego podstawie
   initialUsdValue: number = 1; // wartość początkowa USD w COSTS-container
-  costsData: AllCostsData | undefined;
+  costsData: AllCostsData;
 
   constructor(
     private exchangeRatesService: ExchangeRatesService,
@@ -26,11 +26,6 @@ export class CostsContainerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // To jest subskrypcja do obserwatora, która nasłuchuje zmian w strumieniu wartości związanej z selectedValue$ w serwisie ExchangeRatesService. Kiedy wartość selectedValue$ w serwisie ExchangeRatesService zmieni się, ta subskrypcja reaguje na zmianę. Funkcja przekazana do subscribe zostanie wykonana, a nowa wartość value będzie dostępna w ciele funkcji.
-    this.exchangeRatesService.selectedCurrency$.subscribe((value) => {
-      this.selectedCurrency = value;
-    });
-
     // Subskrybuj do zmian calculatedRate z ExchangeRatesService
     this.exchangeRatesService.calculatedRate$.subscribe((value) => {
       this.calculatedRate = value;
@@ -52,6 +47,7 @@ export class CostsContainerComponent implements OnInit {
         ).toFixed(4);
         this.initialRateUsd = usdToSgdRate;
         this.calculatedRate = usdToSgdRate;
+        // this.calculatedRate.next(usdToSgdRate);
 
         // Ustaw calculatedRate w ExchangeRatesService
         this.exchangeRatesService.setRate(usdToSgdRate);
@@ -105,8 +101,6 @@ export class CostsContainerComponent implements OnInit {
   calculate(event: Event) {
     // Pobranie wartości z dropdowna:
     const selectedCurrency = (event.target as HTMLSelectElement).value;
-    // Ustawienie wybranej wartości w exchangeRatesService:
-    this.exchangeRatesService.setSelectedCurrency(selectedCurrency);
 
     // Pobierz obiekt waluty z paymentCurrencies
     const selectedCurrencyObject = this.paymentCurrencies.find(
@@ -119,8 +113,6 @@ export class CostsContainerComponent implements OnInit {
       const exchangeRate = selectedCurrencyObject.exchangeRate;
       const calculatedRate = +(this.initialRateUsd! * exchangeRate).toFixed(4);
       this.exchangeRatesService.setRate(calculatedRate);
-      console.log('calculated Rate: ', this.calculatedRate);
-      console.log('Initial course USD: ', this.initialRateUsd);
     }
   }
 }

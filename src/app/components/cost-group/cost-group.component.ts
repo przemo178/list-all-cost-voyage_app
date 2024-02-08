@@ -37,7 +37,10 @@ export class CostGroupComponent implements OnInit {
 
   calculateSum(updatedValue: number) {
     this.totalSum = this.costsService.calculateTotalSum(
-      this.AllSingleCosts.toArray()
+      this.AllSingleCosts.map((singleCost) => {
+        // mapowanie - tworzenie nowej tablicy z wartościami z inputów, po to aby można było je dalej sumować
+        return singleCost.inputValue;
+      })
     );
   }
 
