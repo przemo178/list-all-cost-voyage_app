@@ -18,6 +18,7 @@ export class CostsContainerComponent implements OnInit {
   calculatedRate: number; // jest to kurs przeliczony z USD na SGD, po to żeby wyświetlać przeliczenie 1 USD na dany kurs w COSTS-container
   initialRateUsd: number; // jest to kurs przeliczony z USD na SGD, po to żeby przeliczać resztę kursów na jego podstawie
   initialUsdValue: number = 1; // wartość początkowa USD w COSTS-container
+  // quotedValue: number;
   costsData: AllCostsData;
 
   constructor(
@@ -47,7 +48,6 @@ export class CostsContainerComponent implements OnInit {
         ).toFixed(4);
         this.initialRateUsd = usdToSgdRate;
         this.calculatedRate = usdToSgdRate;
-        // this.calculatedRate.next(usdToSgdRate);
 
         // Ustaw calculatedRate w ExchangeRatesService
         this.exchangeRatesService.setRate(usdToSgdRate);

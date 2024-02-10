@@ -23,20 +23,21 @@ export class CostGroupComponent implements OnInit {
   @ViewChildren(SingleCostComponent)
   AllSingleCosts: QueryList<SingleCostComponent>;
 
-  totalSum: number = 0;
-  totalSumUsd: number;
+  totalSumScreened: number = 0;
+  totalSumQuoted: number = 0;
 
   constructor(private costsService: CostsService) {}
 
   ngOnInit(): void {
     if (this.AllSingleCosts) {
       const initialValue = 1;
-      this.calculateSum(initialValue);
+      this.calculateScreenedSum(initialValue);
     }
   }
 
-  calculateSum(updatedValue: number) {
-    this.totalSum = this.costsService.calculateTotalSum(
+  // funkcja sumująca ScreenedValues w totalu
+  calculateScreenedSum(updatedValue: number) {
+    this.totalSumScreened = this.costsService.calculateScreenedTotalSum(
       this.AllSingleCosts.map((singleCost) => {
         // mapowanie - tworzenie nowej tablicy z wartościami z inputów, po to aby można było je dalej sumować
         return singleCost.inputValue;
@@ -44,8 +45,21 @@ export class CostGroupComponent implements OnInit {
     );
   }
 
-  convertSumToUsd() {
-    return (this.totalSum / this.calculatedRate).toFixed(2);
+  // funkcja zamieniająca sumę ScreenedValues na USD
+  convertScreenedSumToUsd() {
+    return (this.totalSumScreened / this.calculatedRate).toFixed(2);
+  }
+
+  // funkcja sumująca QuotedValues w totalu
+  calculateQuotedSum(quotedValue: number) {
+    setTimeout(() => {
+      this.totalSumQuoted += quotedValue;
+    });
+  }
+
+  // funkcja zamieniająca sumę QuotedValues na USD
+  convertQuotedSumToUsd() {
+    return (this.totalSumQuoted / this.calculatedRate).toFixed(2);
   }
 
   //   this.AllSingleCosts: Jest to kolekcja wszystkich komponentów SingleCostComponent, którą zbieramy za pomocą ViewChildren w rodzicu (ParentComponent).

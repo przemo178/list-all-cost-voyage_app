@@ -28,7 +28,7 @@ export class CostsService {
   }
 
   // funkcja sumująca wartości z inputów single costów
-  calculateTotalSum(inputsArray: number[]): number {
+  calculateScreenedTotalSum(inputsArray: number[]): number {
     return inputsArray.reduce((sum, singleCost) => sum + singleCost, 0);
   }
 }

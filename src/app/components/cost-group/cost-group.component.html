@@ -10,7 +10,7 @@
 
   <app-single-cost *ngFor="let singleCost of costGroup.costItems" [singleCost]="singleCost"
     [selectedCurrency]="selectedCurrency" [baseCurrency]="baseCurrency" [calculatedRate]="calculatedRate"
-    (updateSum)="calculateSum($event)"></app-single-cost>
+    (updateSum)="calculateScreenedSum($event)" (quotedValueChange)="calculateQuotedSum($event)"></app-single-cost>
 
   <div class="costGroupContainer__total">
     <div>
@@ -21,13 +21,14 @@
     </div>
 
     <div>
-      <p>{{ selectedCurrency }} <span class="costGroupContainer__total--main">(suma)</span></p>
-      <p>{{ baseCurrency }} (suma)</p>
+      <p>{{ selectedCurrency }} <span class="costGroupContainer__total--main">{{ totalSumQuoted.toFixed(2) }}</span></p>
+      <p>{{ baseCurrency }} {{ convertQuotedSumToUsd() }}</p>
     </div>
 
     <div>
-      <p>{{ selectedCurrency }} <span class="costGroupContainer__total--main">{{ totalSum.toFixed(2) }}</span></p>
-      <p>{{ baseCurrency }} {{ convertSumToUsd() }}</p>
+      <p>{{ selectedCurrency }} <span class="costGroupContainer__total--main">{{ totalSumScreened.toFixed(2) }}</span>
+      </p>
+      <p>{{ baseCurrency }} {{ convertScreenedSumToUsd() }}</p>
     </div>
 
     <div>

@@ -13,25 +13,28 @@ export class SingleCostComponent implements OnInit {
   @Input() calculatedRate: number;
 
   @Input() inputValue: number = 0;
-  @Output() updateSum = new EventEmitter<number>();
+  @Output() updateSum: EventEmitter<number> = new EventEmitter<number>();
+  @Output() quotedValueChange: EventEmitter<number> =
+    new EventEmitter<number>();
 
   toggleCommentGroup = true;
   quotedValue: number;
 
   ngOnInit(): void {
     this.getQuotedCost();
+    this.getQuotedValue();
   }
 
   // metoda do pobrania wartości amount z JSONa
   getQuotedCost(): void {
-    this.quotedValue = this.singleCost.costs.filter((cost) => {
-      cost.type === 'Quoted';
-    })[0]?.amount;
+    this.quotedValue = this.singleCost.costs.filter(
+      (cost) => cost.type === 'Quoted'
+    )[0]?.amount;
   }
 
-  // metoda do przełączania widoczności comment-group
-  commentGroupVisible() {
-    this.toggleCommentGroup = !this.toggleCommentGroup;
+  // funkcja emitująca quotedValue do Cost-group
+  getQuotedValue(): void {
+    this.quotedValueChange.emit(this.quotedValue);
   }
 
   // Funkcja wywoływana przy każdej zmianie wartości w inpucie
@@ -47,5 +50,10 @@ export class SingleCostComponent implements OnInit {
   //  Funkcja do obliczenia Screened value USD z inputa
   calculateScreened() {
     return (this.inputValue / this.calculatedRate).toFixed(2);
+  }
+
+  // metoda do przełączania widoczności comment-group
+  commentGroupVisible() {
+    this.toggleCommentGroup = !this.toggleCommentGroup;
   }
 }
