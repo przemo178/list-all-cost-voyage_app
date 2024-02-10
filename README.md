@@ -1,27 +1,8 @@
 # ListAllCostVoyageApp
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.2.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+I wanted to create a simple web application to list all cost items related to a voyage. Focused on displaying and working with expense categories and cost Items only.
+- Application built using TypeScript and have all data types created as TypeScript interfaces.
+- Exchange Rate to base currency is available in costs.json file (baseCurrency.exchangeRate).
+- Comments should be available to read by clicking on the comments icon. The comment icon should expand/collapse this section of comments.
+- There is possible to change the main currency that is used to display costs. All available currencies with corresponding FX rates are listed in exchange-rates.json. Doing so, will recalculate the cost in DA Currency and display to the user. To do so, each individual cost item needs to be multiplied by the selected currency’s exchange rate.
+- Costs rounded to two decimal points.
+- Total section for each expense category displayed.
