@@ -1,9 +1,71 @@
-<table class="costsTable">
-    <tr class="costsTable__row1">
-        <td>Port Expenses</td>
-        <td>Account code</td>
-        <td>Quoted</td>
-        <td>Screened</td>
-        <td></td>
-    </tr>
-</table>
+<div class="costGroupContainer">
+  <div class="costGroupContainer__showTitle">
+    <p>{{ costGroup.name }}</p>
+    <p>Account code</p>
+    <p>Quoted</p>
+    <p>Screened</p>
+    <p></p>
+  </div>
+
+
+  <app-single-cost *ngFor="let singleCost of costGroup.costItems" [singleCost]="singleCost"
+    [selectedCurrency]="selectedCurrency" [baseCurrency]="baseCurrency" [calculatedRate]="calculatedRate"
+    (updateSum)="calculateScreenedSum($event)" (quotedValueChange)="calculateQuotedSum($event)"></app-single-cost>
+
+  <div class="costGroupContainer__total">
+    <div>
+      <p>Total</p>
+    </div>
+
+    <div>
+    </div>
+
+    <div>
+      <p>{{ selectedCurrency }} <span class="costGroupContainer__total--main">{{ totalSumQuoted.toFixed(2) }}</span></p>
+      <p>{{ baseCurrency }} {{ convertQuotedSumToUsd() }}</p>
+    </div>
+
+    <div>
+      <p>{{ selectedCurrency }} <span class="costGroupContainer__total--main">{{ totalSumScreened.toFixed(2) }}</span>
+      </p>
+      <p>{{ baseCurrency }} {{ convertScreenedSumToUsd() }}</p>
+    </div>
+
+    <div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+<!-- tutaj jeszcze TOTAL  za pomocą ViewChildren-->
+
+<!-- <app-cost-group>
+    <app-single-cost>
+      <html> - czyli te rzeczy statyczne z costs.json
+      <app-comment-group>
+         <app-single-comment>
+      </app-comment-group>
+      <app-comment-form>
+    </app-single-cost>
+  </app-cost-group> -->
+
+
+
+<!-- <viewChldren na Costgroupie> -->
+
+<!-- @ViewChildren(SingleCostComponent) singleCosts: QueryList<SingleCostComponent>;  ---- singleCost.screenValue
+    
+
+
+
+z tego możemy wyrzucić totalCosts!
+
+
+-->
+
+<!-- <appSingleCost ngFor ([costsItems z JSON, ])></appSingleCost> -->

@@ -1,4 +1,6 @@
-<table class="commentOneTable" *ngIf="commentGroupService.isCommentGroupVisible">
-    <app-single-comment></app-single-comment>
-    <app-comment-form></app-comment-form>
-</table>
+<div class="commentGroupContainer">
+    <div class="commentGroupContainer__showComment">
+        <app-single-comment *ngFor="let comment of comments" [singleComment]="comment"></app-single-comment>
+        <div>{{ recivedComment?.type }} {{ recivedComment?.comment }}</div>
+    </div>
+</div>

@@ -1,58 +1,20 @@
-<div class="container">
-    <table class="titleTable">
-        <tr class="titleTable__row1">
-            <td>COSTS</td>
-            <td>
-                <span>Currency</span>
-                <div>
-                    <select class="dropdown" (change)="updateSelectedValue($event)" [(ngModel)]="selectedValue">
-                        <option *ngFor="let currency of paymentCurrencies" [value]="currency.toCurrency">{{
-                            currency.toCurrency }}</option>
-                    </select>
-                </div>
-                <span> 1
-                    {{baseCurrency}} = {{ correctedCourse }} {{ selectedValue }}</span>
-                <!-- <button (click)="show()">SHOW array</button>
-                <button (click)="get()">GET Data </button> -->
-            </td>
-        </tr>
-    </table>
+<div class="costsContainer">
 
-    <table class="costsTable">
-        <app-cost-group></app-cost-group>
-        <app-single-cost></app-single-cost>
-        <app-comment-group></app-comment-group>
-        <hr>
-        <app-second-single-cost></app-second-single-cost>
-        <app-second-comment-group></app-second-comment-group>
-    </table>
+    <div class="costsContainer__showCosts">
+        <h1>Costs</h1>
+        <div>
+            <h1>Currency</h1>
+            <select (change)="calculate($event)" [(ngModel)]="selectedCurrency">
+                <option *ngFor="let currency of paymentCurrencies" [value]="currency.toCurrency">{{
+                    currency.toCurrency }}</option>
+            </select>
 
-    <table class="summaryTable">
-        <tr class="summaryTable__row1">
-            <td>Total</td>
-            <td></td>
-            <td>
-                <div>
-                    <span style="font-size: 12px;">{{ selectedValue }}</span>
-                    <span style="color: black;">{{ baseQuotedValues.toFixed(2) }}</span>
-                </div>
-                <div>
-                    <span style="font-size: 12px;">{{ baseCurrency }}</span>
-                    <span style="font-size: 12px;">{{ sumUsdValues.toFixed(2) }}</span>
-                </div>
-            </td>
-            <td>
-                <div>
-                    <span style="font-size: 12px;">{{ selectedValue }}</span>
-                    <span style="color: black;">{{ sumInputValues.toFixed(2) }}</span>
-                </div>
-                <div>
-                    <span style="font-size: 12px;">{{ baseCurrency }}</span>
-                    <span style="font-size: 12px;">{{ sumUsdInputValues.toFixed(2) }}</span>
-                </div>
-            </td>
-            <td>
-            </td>
-        </tr>
-    </table>
+            <p>{{ initialUsdValue }} {{ baseCurrency }} = {{ calculatedRate }} {{ selectedCurrency }}</p>
+        </div>
+    </div>
+
+
+    <app-cost-group *ngFor="let cost of costsData?.costs" [costGroup]="cost" [selectedCurrency]="selectedCurrency"
+        [baseCurrency]="baseCurrency" [calculatedRate]="calculatedRate"></app-cost-group>
+
 </div>

@@ -1,29 +1,33 @@
-<table class="costsTable">
-    <tr class="costsTable__row2">
-        <td>Barge Expenses</td>
-        <td>Acc-01</td>
-        <td>
-            <div>
-                <span style="font-size: 12px;">{{ selectedValue }}</span>
-                <span style="color: black;">{{ baseQuotedValue.toFixed(2) }}</span>
-            </div>
-            <div>
-                <span style="font-size: 12px;">{{ baseCurrency }}</span>
-                <span style="font-size: 12px;">{{ baseQuotedValueConvertedToUsd?.toFixed(2) }}</span>
-            </div>
-        </td>
-        <td>
-            <!-- <input type="text" [placeholder]="placeholder" [(ngModel)]="inputDefaultValue"> -->
-            <input type="number" [placeholder]="selectedValue" [(ngModel)]="inputValue" (input)="onInputChange()">
-            <div>
-                <span style="font-size: 12px;">{{ baseCurrency }}</span>
-                <span style="font-size: 12px;">{{ inputValueConvertedToUsd?.toFixed(2) }}</span>
-            </div>
-        </td>
-        <td>
-            <a href="#" type="button" class="commentButton" (click)="toggleCommentGroup()"><span><i
-                        class="fa-regular fa-message"></i> 1</span></a>
-            <span><i class="fa-solid fa-arrows-up-down-left-right"></i></span>
-        </td>
-    </tr>
-</table>
+<div class="singleCostContainer">
+    <div class="singleCostContainer__showData">
+
+        <div>
+            <p> {{ singleCost.name }}</p>
+        </div>
+        <div>
+            <p>{{ singleCost.costItemAlias.accountingCode }}
+            </p>
+        </div>
+        <div>
+            <p>{{ selectedCurrency }} <span class="singleCostContainer__showData--main">{{
+                    quotedValue.toFixed(2) }}</span></p>
+            <p>{{ baseCurrency }} {{ calculateQuoted(quotedValue) }}</p>
+        </div>
+        <div class="singleCostContainer__showData--input">
+            <input type="number" [(ngModel)]="inputValue" (ngModelChange)="updateAllCostSum(inputValue)">
+            <p class="singleCostContainer__showData--input--paragraph">{{ selectedCurrency }}</p>
+            <p>{{ baseCurrency }} {{ calculateScreened() }}</p>
+        </div>
+        <div>
+            <a href="#" type="button">
+                <p (click)="commentGroupVisible()"><i class="fa-regular fa-message"></i> 1</p>
+                <!--tutaj zamienić statyczną ilosc komentarzy z jsona - uzyc interpolacji-->
+            </a>
+            <p><i class="fa-solid fa-arrows-up-down-left-right"></i></p>
+        </div>
+    </div>
+
+    <app-comment-group [comments]="singleCost.comments" *ngIf="toggleCommentGroup"></app-comment-group>
+    <app-comment-form [id]="singleCost.id"></app-comment-form> <!-- przekazać cost id w inpucie -->
+
+</div>

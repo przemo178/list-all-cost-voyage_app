@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommentGroupService } from 'src/app/services/comment-group.service';
-import { ExchangeRatesService } from 'src/app/services/exchange-rates.service';
-import { SharedDataService } from 'src/app/services/shared-data.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { CostItem } from 'src/app/models/costs.model';
 
 @Component({
   selector: 'app-single-cost',
@@ -9,100 +7,53 @@ import { SharedDataService } from 'src/app/services/shared-data.service';
   styleUrls: ['./single-cost.component.scss'],
 })
 export class SingleCostComponent implements OnInit {
-  selectedValue: string = '';
-  baseQuotedValue: number = 1000;
-  baseCurrency: string | undefined;
-  correctedCourse: number | undefined;
-  baseQuotedValueConvertedToUsd: number | undefined;
-  inputValue: number = 2000;
-  inputValueConvertedToUsd: number | undefined;
+  @Input() singleCost: CostItem;
+  @Input() selectedCurrency: string;
+  @Input() baseCurrency: string;
+  @Input() calculatedRate: number;
 
-  constructor(
-    private commentGroupService: CommentGroupService,
-    private exchangeRatesService: ExchangeRatesService,
-    private sharedDataService: SharedDataService
-  ) {}
+  @Input() inputValue: number = 0;
+  @Output() updateSum: EventEmitter<number> = new EventEmitter<number>();
+  @Output() quotedValueChange: EventEmitter<number> =
+    new EventEmitter<number>();
+
+  toggleCommentGroup = true;
+  quotedValue: number;
 
   ngOnInit(): void {
-    console.log('SingleCostComponent initialized');
-
-    this.sharedDataService.baseCurrency$.subscribe((baseCurrency) => {
-      this.baseCurrency = baseCurrency;
-    });
-
-    this.subscribeToSelectedValue();
-    this.subscribeToCorrectedCourse();
-
-    this.selectedValue = this.sharedDataService.selectedValue;
-    this.correctedCourse = this.sharedDataService.correctedCourse;
-
-    this.sharedDataService.inputValueFirst$.subscribe((value) => {
-      this.inputValue = value;
-    });
-
-    this.sharedDataService.inputUsdValueFirst$.subscribe((value) => {
-      this.inputValueConvertedToUsd = value;
-    });
-
-    // Ustaw wartość początkową w SharedDataService
-    this.sharedDataService.inputUsdValueFirst = this.inputValueConvertedToUsd!;
+    this.getQuotedCost();
+    this.getQuotedValue();
   }
 
-  toggleCommentGroup() {
-    this.commentGroupService.isCommentGroupVisible =
-      !this.commentGroupService.isCommentGroupVisible;
+  // metoda do pobrania wartości amount z JSONa
+  getQuotedCost(): void {
+    this.quotedValue = this.singleCost.costs.filter(
+      (cost) => cost.type === 'Quoted'
+    )[0]?.amount;
   }
 
-  subscribeToSelectedValue() {
-    this.exchangeRatesService.selectedValue$.subscribe((value) => {
-      this.selectedValue = value;
-      // Dodaj subskrypcję zmiany selectedValue
-      this.sharedDataService.baseCurrency$.subscribe(() => {
-        // Resetuj sumValues po zmianie selectedValue
-        this.sharedDataService.resetSumValues();
-      });
-    });
+  // funkcja emitująca quotedValue do Cost-group
+  getQuotedValue(): void {
+    this.quotedValueChange.emit(this.quotedValue);
   }
 
-  subscribeToCorrectedCourse() {
-    this.exchangeRatesService.correctedCourse$.subscribe((correctedCourse) => {
-      this.correctedCourse = correctedCourse;
-      this.converte();
-      this.converteInput();
-      this.sharedDataService.updateSumUsdValues(
-        this.baseQuotedValueConvertedToUsd ?? 0
-      );
-      this.sharedDataService.inputValueFirst = this.inputValue;
-      // this.sharedDataService.updateSumUsdInputValues(
-      //   this.inputValueConvertedToUsd ?? 0
-      // );
-    });
+  // Funkcja wywoływana przy każdej zmianie wartości w inpucie
+  updateAllCostSum(value: number) {
+    this.updateSum.emit(value);
   }
 
-  converte() {
-    if (this.correctedCourse !== undefined) {
-      this.baseQuotedValueConvertedToUsd = +(
-        this.baseQuotedValue / this.correctedCourse
-      ).toFixed(2);
-      console.log(
-        'przeliczona wartość kursu wiersz 1:',
-        this.baseQuotedValueConvertedToUsd
-      );
-    }
+  // Funkcja do obliczenia Quoted value USD
+  calculateQuoted(quotedValue: number) {
+    return (quotedValue / this.calculatedRate).toFixed(2);
   }
 
-  onInputChange() {
-    this.converteInput();
-    this.sharedDataService.inputValueFirst = this.inputValue;
-    this.sharedDataService.inputUsdValueFirst = this.inputValueConvertedToUsd!;
+  //  Funkcja do obliczenia Screened value USD z inputa
+  calculateScreened() {
+    return (this.inputValue / this.calculatedRate).toFixed(2);
   }
 
-  converteInput() {
-    if (this.correctedCourse !== undefined) {
-      this.inputValueConvertedToUsd = +(
-        this.inputValue / this.correctedCourse
-      ).toFixed(2);
-      console.log('Converte input wiersz 1:', this.inputValueConvertedToUsd);
-    }
+  // metoda do przełączania widoczności comment-group
+  commentGroupVisible() {
+    this.toggleCommentGroup = !this.toggleCommentGroup;
   }
 }

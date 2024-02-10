@@ -1,10 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { map, tap } from 'rxjs';
-import { CostsData } from 'src/app/models/costs.model';
+import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject, map, tap } from 'rxjs';
+import { AllCostsData } from 'src/app/models/costs.model';
 import { PaymentCurrency } from 'src/app/models/exchange-rates.model';
 import { CostsService } from 'src/app/services/costs.service';
 import { ExchangeRatesService } from 'src/app/services/exchange-rates.service';
-import { SharedDataService } from 'src/app/services/shared-data.service';
 
 @Component({
   selector: 'app-costs-container',
@@ -12,43 +11,50 @@ import { SharedDataService } from 'src/app/services/shared-data.service';
   styleUrls: ['./costs-container.component.scss'],
 })
 export class CostsContainerComponent implements OnInit {
-  selectedValue: string = '';
+  selectedCurrency: string = 'SGD';
   paymentCurrencies: PaymentCurrency[] = [];
-  costsData: CostsData | undefined;
-  baseCurrency: string | undefined;
-  baseExchangeRate: number | undefined;
-  correctedCourse: number | undefined;
-  initialCourseUsd: number | undefined;
-  baseQuotedValueBargeExpenses: number | undefined;
-  baseQuotedValueFireGuard: number | undefined;
-  baseQuotedValues: number = 3000;
-  sumUsdValues: number = 0;
-  sumInputValues: number = 0;
-  sumUsdInputValues: number = 0;
+  baseCurrency: string;
+  baseExchangeRate: number;
+  calculatedRate: number; // jest to kurs przeliczony z USD na SGD, po to żeby wyświetlać przeliczenie 1 USD na dany kurs w COSTS-container
+  initialRateUsd: number; // jest to kurs przeliczony z USD na SGD, po to żeby przeliczać resztę kursów na jego podstawie
+  initialUsdValue: number = 1; // wartość początkowa USD w COSTS-container
+  // quotedValue: number;
+  costsData: AllCostsData;
 
   constructor(
     private exchangeRatesService: ExchangeRatesService,
-    private costsService: CostsService,
-    private sharedDataService: SharedDataService
+    private costsService: CostsService
   ) {}
 
   ngOnInit(): void {
-    console.log('CostsContainerComponent initialized');
-
-    this.exchangeRatesService.selectedValue$.subscribe((value) => {
-      this.selectedValue = value;
+    // Subskrybuj do zmian calculatedRate z ExchangeRatesService
+    this.exchangeRatesService.calculatedRate$.subscribe((value) => {
+      this.calculatedRate = value;
     });
 
-    // Subskrybuj do zmian correctedCourse z ExchangeRatesService
-    this.exchangeRatesService.correctedCourse$.subscribe((correctedCourse) => {
-      this.correctedCourse = correctedCourse;
-    });
-
+    // Metoda subscribe przyjmuje funkcję zwrotną, która zostanie wykonana, gdy nowe dane zostaną przekazane przez strumień. W tym przypadku, kiedy dane zostaną odebrane, funkcja zwrotna przypisuje wartość do zmiennej this.costsData.
     this.costsService.getCostsData().subscribe((allCostsData) => {
       this.costsData = allCostsData;
-      console.log('ALL Costs Data:', this.costsData);
+      this.baseCurrency = allCostsData.baseCurrency.currency;
+      this.baseExchangeRate = allCostsData.baseCurrency.exchangeRate;
+      console.log('costs DATA: ', this.costsData);
+      console.log('baseExchangeRate: ', this.baseExchangeRate);
+      console.log('baseCurrency: ', this.baseCurrency);
+
+      // Obliczenie kursu USD na SGD i ustawienie w serwisie ExchangeRatesService:
+      if (this.baseExchangeRate !== undefined && this.baseExchangeRate !== 0) {
+        const usdToSgdRate = +(
+          this.initialUsdValue / this.baseExchangeRate
+        ).toFixed(4);
+        this.initialRateUsd = usdToSgdRate;
+        this.calculatedRate = usdToSgdRate;
+
+        // Ustaw calculatedRate w ExchangeRatesService
+        this.exchangeRatesService.setRate(usdToSgdRate);
+      }
     });
 
+    // paymentCurrencies w komponencie zostanie zaktualizowane na podstawie przetworzonych danych uzyskanych z getExchangeData(). Operator pipe pozwala na przekształcanie danych w strumieniu. Operator map przekształca dane, przekazując je do funkcji zwrotnej. W tym przypadku, pobiera paymentCurrencies z obiektu exchangeRates. Metoda subscribe przyjmuje funkcję zwrotną, która zostanie wykonana, gdy nowe przetworzone dane zostaną przekazane przez strumień. W tym przypadku, kiedy dane zostaną przetworzone, funkcja zwrotna przypisuje wartość do zmiennej this.paymentCurrencies i wyświetla ją w konsoli.
     this.exchangeRatesService
       .getExchangeData()
       .pipe(map((exchangeRates) => exchangeRates.paymentCurrencies))
@@ -56,60 +62,6 @@ export class CostsContainerComponent implements OnInit {
         this.paymentCurrencies = paymentCurrencies;
         console.log('Payment Currencies:', this.paymentCurrencies);
       });
-
-    this.costsService.getCostsData().subscribe((data) => {
-      this.baseCurrency = data.baseCurrency.currency;
-      this.baseExchangeRate = data.baseCurrency.exchangeRate;
-      console.log('Base Currency:', this.baseCurrency);
-      console.log('Base Exchange Rate:', this.baseExchangeRate);
-      this.sharedDataService.setBaseCurrency(this.baseCurrency);
-
-      // Oblicz odwrotność kursu
-      if (this.baseExchangeRate !== undefined && this.baseExchangeRate !== 0) {
-        const correctedCourse = +(1 / this.baseExchangeRate).toFixed(4);
-        this.initialCourseUsd = correctedCourse;
-        this.correctedCourse = correctedCourse;
-        console.log('Correct of Course:', this.correctedCourse);
-
-        // Ustaw correctedCourse w ExchangeRatesService
-        this.exchangeRatesService.setCorrectedCourse(correctedCourse);
-      }
-    });
-
-    this.sharedDataService.selectedValue = this.selectedValue;
-    this.sharedDataService.correctedCourse = this.correctedCourse;
-
-    this.sharedDataService.sumUsdValues$.subscribe((value) => {
-      this.sumUsdValues = value;
-      console.log('sumUsdValues: ', this.sumUsdValues);
-    });
-
-    this.sharedDataService.inputValueFirst$.subscribe(() => {
-      this.calculateInputSum();
-    });
-
-    this.sharedDataService.inputValueSecond$.subscribe(() => {
-      this.calculateInputSum();
-    });
-
-    this.sharedDataService.inputUsdValueFirst$.subscribe(() => {
-      this.calculateUsdInputSum();
-    });
-
-    this.sharedDataService.inputUsdValueSecond$.subscribe(() => {
-      this.calculateUsdInputSum();
-    });
-
-    // Dodaj subskrypcję zmiany selectedValue
-    this.sharedDataService.baseCurrency$.subscribe(() => {
-      // Resetuj sumValues po zmianie selectedValue
-      this.sharedDataService.resetSumValues();
-    });
-
-    // this.sharedDataService.sumUsdInputValues$.subscribe((value) => {
-    //   this.sumUsdInputValues = value;
-    //   console.log('sumUsdInputValues: ', this.sumUsdInputValues);
-    // });
 
     this.exchangeRatesService
       .getExchangeData()
@@ -124,13 +76,6 @@ export class CostsContainerComponent implements OnInit {
         })
       )
       .subscribe();
-
-    // this.exchangeRatesService.getExchangeData().subscribe((data) => {
-    //   this.exchangeRatesData = data;
-    //   console.log('Exchange Rates:', this.exchangeRatesData);
-    //   this.paymentCurrencies = this.exchangeRatesData.paymentCurrencies;
-    //   console.log('Payment Currencies:', this.paymentCurrencies);
-    // });
 
     // this.paymentCurrencies = this.route.snapshot.data['paymentCurrencies'];
 
@@ -153,35 +98,21 @@ export class CostsContainerComponent implements OnInit {
     // console.log('costsData z resolvera: ', this.costsData);
   }
 
-  updateSelectedValue(event: Event) {
-    const selectedValue = (event.target as HTMLSelectElement).value;
-    this.exchangeRatesService.setSelectedValue(selectedValue);
+  calculate(event: Event) {
+    // Pobranie wartości z dropdowna:
+    const selectedCurrency = (event.target as HTMLSelectElement).value;
 
     // Pobierz obiekt waluty z paymentCurrencies
     const selectedCurrencyObject = this.paymentCurrencies.find(
-      (currency) => currency.toCurrency === selectedValue
+      (currency) => currency.toCurrency === selectedCurrency
     );
 
     // Sprawdź, czy obiekt został znaleziony
     if (selectedCurrencyObject) {
+      // Obliczenie poprawionego kursu i ustawienie w exchangeRatesService:
       const exchangeRate = selectedCurrencyObject.exchangeRate;
-      const correctedCourse = +(this.initialCourseUsd! * exchangeRate).toFixed(
-        4
-      );
-      this.exchangeRatesService.setCorrectedCourse(correctedCourse);
-      console.log('Result:', this.correctedCourse);
+      const calculatedRate = +(this.initialRateUsd! * exchangeRate).toFixed(4);
+      this.exchangeRatesService.setRate(calculatedRate);
     }
-  }
-
-  calculateInputSum(): void {
-    this.sumInputValues =
-      this.sharedDataService.inputValueFirst +
-      this.sharedDataService.inputValueSecond;
-  }
-
-  calculateUsdInputSum(): void {
-    this.sumUsdInputValues =
-      this.sharedDataService.inputUsdValueFirst +
-      this.sharedDataService.inputUsdValueSecond;
   }
 }
